@@ -148,217 +148,195 @@
             <div class="main-content">
 
                 
-                    <div class="fade-in-down-animation">
-    <div class="article-content-container">
+                    $avatarWidth = 46px;
+$arrow-icon-width = 16px;
+$post-nav-max-width = 220px;
+$article-title-font-size = 1.6rem;
 
-        <div class="article-title">
-            <span class="title-hover-animation">当GET请求遇到数组</span>
-        </div>
+.article-content-container {
 
-        
-            <div class="article-header">
-                <!-- <div class="avatar">
-                    <img src="/images/avatar.svg">
-                </div> -->
-                <div class="info">
-                    <!-- <div class="author">
-                        <span class="name">sansiro</span>
-                        
-                            <span class="author-label">Lv2</span>
-                        
-                    </div> -->
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-04-12 17:24:20
-    </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/HTTP/">HTTP</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
+  keep-container(false, 0, 0, 30px, 30px);
 
-    
-    
-        <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i>&nbsp;<span>1.3k Words</span>
-        </span>
-    
-    
-        <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i>&nbsp;<span>6 Mins</span>
-        </span>
-    
-    
-</div>
+  .article-title {
+    color: var(--second-text-color);
+    font-weight: 600;
+    font-size: $article-title-font-size;
 
-                    </div>
-                </div>
-            </div>
-        
+    +keep-tablet() {
+      font-size: $article-title-font-size * 0.9;
+    }
 
-        <div class="article-content markdown-body">
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p> 我们日常开发中，经常会遇到要在请求中携带数组的情况。但是由于encode，数据都会被转化为字符串传输。我们来探究这种情况下数组该如何转换，有哪些形式来转换。当然，不管哪种形式的传输，都需要服务器接口支持对应的格式。</p>
-<blockquote>
-<p>一般情况下不建议用 GET 传输数组，因为无法保证数组长度，可能会超出get长度限制。在确保小数据量的情况下，我们可以讨论。</p>
-</blockquote>
-<h3 id="形式"><a href="#形式" class="headerlink" title="形式"></a>形式</h3><p>通常情况下，我们会把数组转换成别的形式，比如说转化成逗号分隔的字符串或者直接转化成 json 来传输。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转化成逗号分隔</span></span><br><span class="line">?arr=<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 转化成json</span></span><br><span class="line">?arr=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
-
-<p>这两种形式是比较常用的转化形式，通过服务器同学的解码，可以重新得到数组。但是除了这两种形式，还有哪些形式吗？</p>
-<p>通过学习，我们了解到，常常被使用的还有如下几种形式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 带 []</span></span><br><span class="line">?arr[]=<span class="number">1</span>&amp;arr[]=<span class="number">2</span>&amp;arr[]=<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 带 []，且有下标的</span></span><br><span class="line">?arr[<span class="number">0</span>]=<span class="number">1</span>&amp;arr[<span class="number">1</span>]=<span class="number">2</span>&amp;arr[<span class="number">2</span>]=<span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 重复出现</span></span><br><span class="line">?arr=<span class="number">1</span>&amp;arr=<span class="number">2</span>&amp;arr=<span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>这时候是不是有个疑惑，那我们每次传参之前都得手动转一遍，岂不是很麻烦？</p>
-<p>其实 qs 就自带了这个功能。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">qs.stringify(&#123; <span class="attr">a</span>: [<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>] &#125;, &#123; <span class="attr">arrayFormat</span>: <span class="string">&#x27;indices&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">// &#x27;a[0]=b&amp;a[1]=c&#x27;</span></span><br><span class="line">qs.stringify(&#123; <span class="attr">a</span>: [<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>] &#125;, &#123; <span class="attr">arrayFormat</span>: <span class="string">&#x27;brackets&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">// &#x27;a[]=b&amp;a[]=c&#x27;</span></span><br><span class="line">qs.stringify(&#123; <span class="attr">a</span>: [<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>] &#125;, &#123; <span class="attr">arrayFormat</span>: <span class="string">&#x27;repeat&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">// &#x27;a=b&amp;a=c&#x27;</span></span><br><span class="line">qs.stringify(&#123; <span class="attr">a</span>: [<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>] &#125;, &#123; <span class="attr">arrayFormat</span>: <span class="string">&#x27;comma&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">// &#x27;a=b,c&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们也可以自己来实现一遍</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">formatArrayFunc</span>(<span class="params">key, array, format</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span>(format) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;brackets&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> bracketsArray(key, array);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;indices&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> indicesArray(key, array);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;repeat&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> repeatArray(key, array);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;comma&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> commaArray(key, array);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(array)&#125;</span>`</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">stringifyParams</span>(<span class="params">params, formatArray = <span class="string">&#x27;comma&#x27;</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> str = [];</span><br><span class="line"></span><br><span class="line">  <span class="built_in">Object</span>.keys(params).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(params[key])) &#123;</span><br><span class="line">      str.push(formatArrayFunc(key, params[key], formatArray));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      str.push(<span class="string">`<span class="subst">$&#123;<span class="built_in">String</span>(key)&#125;</span>=<span class="subst">$&#123;<span class="built_in">String</span>(params[key])&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;?&#x27;</span> + str.join(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bracketsArray</span>(<span class="params">key, array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> array.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;key&#125;</span>[]=<span class="subst">$&#123;item&#125;</span>`</span></span><br><span class="line">  &#125;).join(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">indicesArray</span>(<span class="params">key, array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> array.map(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;key&#125;</span>[<span class="subst">$&#123;index&#125;</span>]=<span class="subst">$&#123;item&#125;</span>`</span></span><br><span class="line">  &#125;).join(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">repeatArray</span>(<span class="params">key, array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> array.map(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;item&#125;</span>`</span></span><br><span class="line">  &#125;).join(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">commaArray</span>(<span class="params">key, array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;key&#125;</span>=<span class="subst">$&#123;array.join(<span class="string">&#x27;,&#x27;</span>)&#125;</span>`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> params = &#123;</span><br><span class="line">  name: <span class="string">&#x27;lzd&#x27;</span>,</span><br><span class="line">  list: [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>],</span><br><span class="line">  isvip: <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stringifyParams(params, <span class="string">&#x27;indices&#x27;</span>));</span><br><span class="line"><span class="comment">// ?name=lzd&amp;list[0]=a&amp;list[1]=b&amp;list[2]=c&amp;isvip=true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stringifyParams(params, <span class="string">&#x27;brackets&#x27;</span>));</span><br><span class="line"><span class="comment">// ?name=lzd&amp;list[]=a&amp;list[]=b&amp;list[]=c&amp;isvip=true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stringifyParams(params, <span class="string">&#x27;repeat&#x27;</span>));</span><br><span class="line"><span class="comment">// ?name=lzd&amp;list=a&amp;list=b&amp;list=c&amp;isvip=true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(stringifyParams(params, <span class="string">&#x27;comma&#x27;</span>));</span><br><span class="line"><span class="comment">// ?name=lzd&amp;list=a,b,c&amp;isvip=true</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="接收"><a href="#接收" class="headerlink" title="接收"></a>接收</h3><p>以上我们讨论的数组的转化形式，都需要服务器做相应的处理，可以事先就约定好形式。有的形式需要接口中处理，如逗号分隔形式，json形式，有的形式个别框架会自动转换，如 brackets、indices。</p>
-<p>我们可以实现一个接收各种形式数组转化，并且转化成真数组的方法。</p>
-<blockquote>
-<p>我们主要针对 indices、brackets、repeat 三种形式，因为这个明确是数组形式。但是 comma 和 逗号分隔，其本来形式并不一定是数组。所以需要针对特点场景来做具体处理，这里不做处理</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">parseParam</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> paramsUri = <span class="regexp">/.*\?(.*)$/</span>.exec(url)[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 没匹配到直接返回空对象</span></span><br><span class="line">  <span class="keyword">if</span>(!paramsUri) <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> keyValues = paramsUri.split(<span class="string">&#x27;&amp;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> result = &#123;&#125;</span><br><span class="line">  keyValues.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 检查是否带有的等号</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="regexp">/=/</span>.test(item)) &#123;</span><br><span class="line">      <span class="keyword">const</span> split = item.split(<span class="string">&#x27;=&#x27;</span>);</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 是否带有 []，带的话，肯定是数组</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="regexp">/\[(\d?)\]/</span>.test(split[<span class="number">0</span>])) &#123;</span><br><span class="line">        <span class="keyword">const</span> array = (<span class="regexp">/(.*)\[(\d?)\]/</span>.exec(split[<span class="number">0</span>]));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查是 list[]=1&amp;list[]=2 类型 还是 list[1]=1&amp;list[2]=2</span></span><br><span class="line">        <span class="keyword">if</span>(array[<span class="number">2</span>] === <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">          </span><br><span class="line">          <span class="keyword">if</span>(!result[array[<span class="number">1</span>]]) &#123;</span><br><span class="line">            result[array[<span class="number">1</span>]] = [];</span><br><span class="line">          &#125;</span><br><span class="line">          result[array[<span class="number">1</span>]].push(split[<span class="number">1</span>])</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="keyword">if</span>(!result[array[<span class="number">1</span>]]) &#123;</span><br><span class="line">            result[array[<span class="number">1</span>]] = [];</span><br><span class="line">          &#125;</span><br><span class="line">          result[array[<span class="number">1</span>]][array[<span class="number">2</span>]] = split[<span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 没有 []，不一定不是数组，可能是 repeat 形式的</span></span><br><span class="line">      <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(result[split[<span class="number">0</span>]]) &#123;</span><br><span class="line">          <span class="keyword">if</span>(<span class="built_in">Array</span>.isArray(result[split[<span class="number">0</span>]])) &#123;</span><br><span class="line">            result[split[<span class="number">0</span>]].push(split[<span class="number">1</span>])</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> &#123;</span><br><span class="line">            result[split[<span class="number">0</span>]] = [result[split[<span class="number">0</span>]], split[<span class="number">1</span>]]</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">          result[split[<span class="number">0</span>]] = split[<span class="number">1</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 没带等号的，默认值为 true</span></span><br><span class="line">      result[item] = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url = <span class="string">&quot;baidu.com?testname=yiqihaochidian&amp;list[0]=lzd&amp;list[1]=la&amp;list[2]=lml&amp;qs[]=1&amp;qs[]=2&amp;isvip&amp;business=changba&amp;user=lzd&amp;user=liao&amp;user=ys&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(parseParam(url));</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//   testname: &#x27;yiqihaochidian&#x27;,</span></span><br><span class="line"><span class="comment">//   list: [ &#x27;lzd&#x27;, &#x27;la&#x27;, &#x27;lml&#x27; ],</span></span><br><span class="line"><span class="comment">//   qs: [ &#x27;1&#x27;, &#x27;2&#x27; ],</span></span><br><span class="line"><span class="comment">//   isvip: true,</span></span><br><span class="line"><span class="comment">//   business: &#x27;changba&#x27;,</span></span><br><span class="line"><span class="comment">//   user: [ &#x27;lzd&#x27;, &#x27;liao&#x27;, &#x27;ys&#x27; ]</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br></pre></td></tr></table></figure>
+    +keep-mobile() {
+      font-size: $article-title-font-size * 0.8;
+    }
+  }
 
 
-        </div>
+  .article-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
-        
+    .avatar {
+      position: absolute;
+      top: 0
+      left: 0;
+      width: $avatarWidth;
+      height: $avatarWidth;
+      padding: 1px;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
 
-        
-            <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/05/function-callback-problem/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">【转译】不要随意将函数作为回调参数</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/2021/01/%E4%B8%80%E5%90%8D%E5%89%8D%E7%AB%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%8D%E8%BF%90%E7%AE%97%E4%BF%AE%E5%85%BB/"
-                        >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">一名前端的基础位运算修养</span>
-                                <span class="post-nav-item">Next posts</span>
-                            </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background: var(--avatar-background-color);
+      }
 
-        
-            <div class="comment-container">
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
-    </div>
-    
-
-        
-            
-    <div class="valine-container">
-        <script data-pjax
-                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-        <div id="vcomments"></div>
-        <script data-pjax>
-            function loadValine() {
-                new Valine({
-                    el: '#vcomments',
-                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
-                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
-                    meta: ['nick', 'mail', 'link'],
-                    avatar: 'wavatar',
-                    enableQQ: true,
-                    placeholder: '',
-                    lang: 'en'.toLowerCase()
-                });
-
-                function getAuthor(language) {
-                    switch (language) {
-                        case 'en':
-                            return 'Author';
-                        case 'zh-CN':
-                            return '博主';
-                        default:
-                            return 'Master';
-                    }
-                }
-
-                // Add "Author" identify
-                const getValineDomTimer = setInterval(() => {
-                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
-                    if (vcards.length > 0) {
-                        let author = 'sansiro';
-
-                        if (author) {
-                            for (let vcard of vcards) {
-                                const vnick_dom = vcard.querySelector('.vhead .vnick');
-                                const vnick = vnick_dom.innerHTML;
-                                if (vnick === author) {
-                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
-                                }
-                            }
-                        }
-                        clearInterval(getValineDomTimer);
-                    } else {
-                        clearInterval(getValineDomTimer);
-                    }
-                }, 2000);
-            }
-
-            if ('true') {
-                const loadValineTimeout = setTimeout(() => {
-                    loadValine();
-                    clearTimeout(loadValineTimeout);
-                }, 1000);
-            } else {
-                window.addEventListener('DOMContentLoaded', loadValine);
-            }
-        </script>
-    </div>
+    }
 
 
+    .info {
+      padding: 2px 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
 
-        
-    
-</div>
+      .author {
+        font-weight: 600;
+        font-size: 1.18rem;
+        display: flex;
+        align-items: center;
 
-            </div>
-        
-    </div>
-</div>
+        .name {
+          color: var(--default-text-color);
+        }
+
+        .author-label {
+          margin-left: 10px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          padding: 0 5px;
+          border-radius: 5px;
+          color: #fff;
+          background: var(--selection-color);
+        }
+
+      }
+    }
+
+  }
+
+
+  .article-header, .article-header-meta-info {
+    margin-top: 16px;
+    +keep-tablet() {
+      transform: scale(0.9);
+      transform-origin: left top;
+    }
+  }
+
+
+  .article-content {
+    margin-top: $component-spacing-value;
+    padding-bottom: 10px;
+    word-wrap: break-word;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--default-text-color);
+  }
+
+  .post-copyright-info {
+    margin-top: $component-spacing-value;
+    width: 100%;
+  }
+
+  .article-nav {
+    height: 40px;
+    margin-top: $component-spacing-value;
+
+    .article-prev, .article-next {
+      max-width: $post-nav-max-width;
+      height: 100%;
+      box-sizing: border-box;
+
+      keep-container(true, 1.03, 1.03, 10px, 0);
+
+      a {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        &.prev {
+          padding-left: $arrow-icon-width;
+        }
+
+        &.next {
+          padding-right: $arrow-icon-width;
+        }
+
+        .arrow-icon {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: $arrow-icon-width;
+
+          &.left {
+            left: 0;
+          }
+
+          &.right {
+            right: 0;
+          }
+        }
+
+        .title {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+    }
+
+    .article-prev {
+      float: left;
+    }
+
+    .article-next {
+      float: right;
+    }
+
+    .post-nav-item {
+      display: none;
+
+      +keep-tablet() {
+        display: inline-block;
+      }
+
+    }
+
+
+    .post-nav-title-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      +keep-tablet() {
+        display: none;
+      }
+    }
+
+  }
+
+
+}
+
 
 
                 

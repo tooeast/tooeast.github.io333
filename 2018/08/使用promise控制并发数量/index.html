@@ -148,200 +148,195 @@
             <div class="main-content">
 
                 
-                    <div class="fade-in-down-animation">
-    <div class="article-content-container">
+                    $avatarWidth = 46px;
+$arrow-icon-width = 16px;
+$post-nav-max-width = 220px;
+$article-title-font-size = 1.6rem;
 
-        <div class="article-title">
-            <span class="title-hover-animation">使用promise控制并发数量</span>
-        </div>
+.article-content-container {
 
-        
-            <div class="article-header">
-                <!-- <div class="avatar">
-                    <img src="/images/avatar.svg">
-                </div> -->
-                <div class="info">
-                    <!-- <div class="author">
-                        <span class="name">sansiro</span>
-                        
-                            <span class="author-label">Lv2</span>
-                        
-                    </div> -->
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2018-08-19 10:21:41
-    </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/JS/">JS</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
+  keep-container(false, 0, 0, 30px, 30px);
 
-    
-    
-        <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i>&nbsp;<span>597 Words</span>
-        </span>
-    
-    
-        <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i>&nbsp;<span>2 Mins</span>
-        </span>
-    
-    
-</div>
+  .article-title {
+    color: var(--second-text-color);
+    font-weight: 600;
+    font-size: $article-title-font-size;
 
-                    </div>
-                </div>
-            </div>
-        
+    +keep-tablet() {
+      font-size: $article-title-font-size * 0.9;
+    }
 
-        <div class="article-content markdown-body">
-            <p>不记得什么时候在什么地方看到的这段代码，当时觉得很神奇，<code>promise</code> 还可以这么用。</p>
-<p>这里使用 <code>promise</code> 来控制并发数量，在实际中可以放在图片加载或者资源加在的时候，以防占用大量带宽影响其他资源的加载，我认为还是有很大的实际作用的。</p>
-<p>代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 模拟任务，设置任务的时间</span></span><br><span class="line"><span class="keyword">var</span> urls = [</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link1&#x27;</span>, <span class="attr">time</span>: <span class="number">3000</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link2&#x27;</span>, <span class="attr">time</span>: <span class="number">2000</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link3&#x27;</span>, <span class="attr">time</span>: <span class="number">5000</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link4&#x27;</span>, <span class="attr">time</span>: <span class="number">1000</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link5&#x27;</span>, <span class="attr">time</span>: <span class="number">1200</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link6&#x27;</span>, <span class="attr">time</span>: <span class="number">2000</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link7&#x27;</span>, <span class="attr">time</span>: <span class="number">800</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">info</span>: <span class="string">&#x27;link8&#x27;</span>, <span class="attr">time</span>: <span class="number">3000</span> &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置我们要执行的任务</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadImg</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">&quot;----&quot;</span> + url.info + <span class="string">&quot; start!&quot;</span>);</span><br><span class="line">      <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log( url.info + <span class="string">&quot; OK!!!&quot;</span>);</span><br><span class="line">        resolve();</span><br><span class="line">      &#125;, url.time)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  @ 主函数</span></span><br><span class="line"><span class="comment">  tasks: 任务列表</span></span><br><span class="line"><span class="comment">  func: 任务的方法，执行函数</span></span><br><span class="line"><span class="comment">  limit: 最大并发数</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">multiTask</span>(<span class="params">tasks, func, limit</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 先将任务列表拷贝一份，接下来要操作</span></span><br><span class="line">  <span class="keyword">let</span> squ = [].concat(tasks);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化并发池</span></span><br><span class="line">  <span class="keyword">let</span> promises = [];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 直接将任务按照并发最大值 放入列表中（还未开始执行）</span></span><br><span class="line">  promises = squ.splice(<span class="number">0</span>, limit).map(<span class="function">(<span class="params">task, index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> func(task).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> index</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 这里利用 reduce 来实现并发池的维护</span></span><br><span class="line">  <span class="keyword">return</span> squ.reduce(<span class="function">(<span class="params">res, task</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 这里用到 .then 是因为给 reduce 的初始值是 Promise.resolve()</span></span><br><span class="line">    <span class="keyword">return</span> res.then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// Promise.race 返回第一个执行完毕的任务 的位置</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.race(promises);</span><br><span class="line">    &#125;).then(<span class="function">(<span class="params">num</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// 处理执行完成的任务，并且将新的任务替代 放入并发池，并且开始执行新的任务</span></span><br><span class="line">      promises[num] = func(task).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 这里的num是在 并发池 中位置的标识，这样可以更加方便的就行任务的替换</span></span><br><span class="line">        <span class="keyword">return</span> num;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;, <span class="built_in">Promise</span>.resolve()).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 这个任务是为了 在所有任务执行完之后添加一个回调方法，不然就会在最后一个任务进入并发池的时候就完成，而不是所有任务都执行完成</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.all(promises)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">multiTask(urls, loadImg, <span class="number">3</span>).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;都完事儿了！&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，代码主要是维护一个定长的数组来实现控制，数组的长度取决于规定的最大并发数。</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="/image/promise-res.png"
-                      alt="res"
-                ></p>
-
-        </div>
-
-        
-
-        
-            <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2018/11/JS%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E4%B8%80/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">JS正则表达式学习一</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/2018/06/%E5%9F%BA%E4%BA%8EVue%E7%9A%84%E5%BC%B9%E6%A1%86%E6%8F%92%E4%BB%B6/"
-                        >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">基于Vue的弹框插件</span>
-                                <span class="post-nav-item">Next posts</span>
-                            </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
-
-        
-            <div class="comment-container">
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
-    </div>
-    
-
-        
-            
-    <div class="valine-container">
-        <script data-pjax
-                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-        <div id="vcomments"></div>
-        <script data-pjax>
-            function loadValine() {
-                new Valine({
-                    el: '#vcomments',
-                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
-                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
-                    meta: ['nick', 'mail', 'link'],
-                    avatar: 'wavatar',
-                    enableQQ: true,
-                    placeholder: '',
-                    lang: 'en'.toLowerCase()
-                });
-
-                function getAuthor(language) {
-                    switch (language) {
-                        case 'en':
-                            return 'Author';
-                        case 'zh-CN':
-                            return '博主';
-                        default:
-                            return 'Master';
-                    }
-                }
-
-                // Add "Author" identify
-                const getValineDomTimer = setInterval(() => {
-                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
-                    if (vcards.length > 0) {
-                        let author = 'sansiro';
-
-                        if (author) {
-                            for (let vcard of vcards) {
-                                const vnick_dom = vcard.querySelector('.vhead .vnick');
-                                const vnick = vnick_dom.innerHTML;
-                                if (vnick === author) {
-                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
-                                }
-                            }
-                        }
-                        clearInterval(getValineDomTimer);
-                    } else {
-                        clearInterval(getValineDomTimer);
-                    }
-                }, 2000);
-            }
-
-            if ('true') {
-                const loadValineTimeout = setTimeout(() => {
-                    loadValine();
-                    clearTimeout(loadValineTimeout);
-                }, 1000);
-            } else {
-                window.addEventListener('DOMContentLoaded', loadValine);
-            }
-        </script>
-    </div>
+    +keep-mobile() {
+      font-size: $article-title-font-size * 0.8;
+    }
+  }
 
 
+  .article-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
-        
-    
-</div>
+    .avatar {
+      position: absolute;
+      top: 0
+      left: 0;
+      width: $avatarWidth;
+      height: $avatarWidth;
+      padding: 1px;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
 
-            </div>
-        
-    </div>
-</div>
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background: var(--avatar-background-color);
+      }
+
+    }
+
+
+    .info {
+      padding: 2px 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+
+      .author {
+        font-weight: 600;
+        font-size: 1.18rem;
+        display: flex;
+        align-items: center;
+
+        .name {
+          color: var(--default-text-color);
+        }
+
+        .author-label {
+          margin-left: 10px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          padding: 0 5px;
+          border-radius: 5px;
+          color: #fff;
+          background: var(--selection-color);
+        }
+
+      }
+    }
+
+  }
+
+
+  .article-header, .article-header-meta-info {
+    margin-top: 16px;
+    +keep-tablet() {
+      transform: scale(0.9);
+      transform-origin: left top;
+    }
+  }
+
+
+  .article-content {
+    margin-top: $component-spacing-value;
+    padding-bottom: 10px;
+    word-wrap: break-word;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--default-text-color);
+  }
+
+  .post-copyright-info {
+    margin-top: $component-spacing-value;
+    width: 100%;
+  }
+
+  .article-nav {
+    height: 40px;
+    margin-top: $component-spacing-value;
+
+    .article-prev, .article-next {
+      max-width: $post-nav-max-width;
+      height: 100%;
+      box-sizing: border-box;
+
+      keep-container(true, 1.03, 1.03, 10px, 0);
+
+      a {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        &.prev {
+          padding-left: $arrow-icon-width;
+        }
+
+        &.next {
+          padding-right: $arrow-icon-width;
+        }
+
+        .arrow-icon {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: $arrow-icon-width;
+
+          &.left {
+            left: 0;
+          }
+
+          &.right {
+            right: 0;
+          }
+        }
+
+        .title {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+    }
+
+    .article-prev {
+      float: left;
+    }
+
+    .article-next {
+      float: right;
+    }
+
+    .post-nav-item {
+      display: none;
+
+      +keep-tablet() {
+        display: inline-block;
+      }
+
+    }
+
+
+    .post-nav-title-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      +keep-tablet() {
+        display: none;
+      }
+    }
+
+  }
+
+
+}
+
 
 
                 

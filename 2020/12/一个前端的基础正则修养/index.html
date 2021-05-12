@@ -148,317 +148,195 @@
             <div class="main-content">
 
                 
-                    <div class="fade-in-down-animation">
-    <div class="article-content-container">
+                    $avatarWidth = 46px;
+$arrow-icon-width = 16px;
+$post-nav-max-width = 220px;
+$article-title-font-size = 1.6rem;
 
-        <div class="article-title">
-            <span class="title-hover-animation">一个前端的基础正则修养</span>
-        </div>
+.article-content-container {
 
-        
-            <div class="article-header">
-                <!-- <div class="avatar">
-                    <img src="/images/avatar.svg">
-                </div> -->
-                <div class="info">
-                    <!-- <div class="author">
-                        <span class="name">sansiro</span>
-                        
-                            <span class="author-label">Lv2</span>
-                        
-                    </div> -->
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2020-12-11 14:30:11
-    </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/%E5%89%8D%E7%AB%AF%E4%BF%AE%E5%85%BB/">前端修养</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/%E5%88%86%E4%BA%AB%E4%BC%9A/">分享会</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
+  keep-container(false, 0, 0, 30px, 30px);
 
-    
-    
-        <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i>&nbsp;<span>2.4k Words</span>
-        </span>
-    
-    
-        <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i>&nbsp;<span>11 Mins</span>
-        </span>
-    
-    
-</div>
+  .article-title {
+    color: var(--second-text-color);
+    font-weight: 600;
+    font-size: $article-title-font-size;
 
-                    </div>
-                </div>
-            </div>
-        
+    +keep-tablet() {
+      font-size: $article-title-font-size * 0.9;
+    }
 
-        <div class="article-content markdown-body">
-            <h1 id="一名前端的基础正则修养"><a href="#一名前端的基础正则修养" class="headerlink" title="一名前端的基础正则修养"></a>一名前端的基础正则修养</h1><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><ul>
-<li><h4 id="什么是正则？"><a href="#什么是正则？" class="headerlink" title="什么是正则？"></a>什么是正则？</h4></li>
-</ul>
-<p>正则表达式，又称规则表达式。（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式通常被用来检索、替换那些符合某个模式(规则)的文本。</p>
-<blockquote>
-<p><a class="link"   target="_blank" rel="noopener" href="https://note.youdao.com/" >详解<i class="fas fa-external-link-alt"></i></a></p>
-</blockquote>
-<ul>
-<li><h4 id="正则有几种？JS-中的正则是哪种？"><a href="#正则有几种？JS-中的正则是哪种？" class="headerlink" title="正则有几种？JS 中的正则是哪种？"></a>正则有几种？JS 中的正则是哪种？</h4></li>
-</ul>
-<p>正则引擎主要可以分为基本不同的两大类：</p>
-<ol>
-<li>DFA (Deterministic finite automaton) 确定型有穷自动机</li>
-<li>NFA (Non-deterministic finite automaton) 非确定型有穷自动机</li>
-</ol>
-<p>JS 使用的是 NFA。</p>
-<blockquote>
-<p><a class="link"   target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000021787021" >具体分析<i class="fas fa-external-link-alt"></i></a></p>
-</blockquote>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><ol>
-<li>校验手机号</li>
-</ol>
-<p>手机号码的校验。一般没有特殊需求，只校验开头是1的11位数字</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let call &#x3D; &#39;16601167965&#39;;</span><br><span class="line">console.log(&#x2F;^1\d&#123;10&#125;$&#x2F;.test(call)); &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>校验身份证号码</li>
-</ol>
-<p>身份证号码可能为15位或18位，15位为全数字，18位中前17位为数字，最后一位为数字或者X</p>
-<ol start="3">
-<li>日期的提取</li>
-</ol>
-<p>将一串字符串形式的日期转化成特定的日期格式，通过正则的提取，提取到需要的信息</p>
-<h2 id="字符的匹配"><a href="#字符的匹配" class="headerlink" title="字符的匹配"></a>字符的匹配</h2><ol>
-<li>横向模糊匹配</li>
-<li>纵向模糊匹配</li>
-<li>多选分支</li>
-<li>字符组的简写</li>
-<li>量词的简写</li>
-<li>贪婪匹配和惰性匹配</li>
-</ol>
-<h2 id="位置的匹配"><a href="#位置的匹配" class="headerlink" title="位置的匹配"></a>位置的匹配</h2><ol>
-<li>位置的概念，什么是位置？</li>
-<li>做题<ol>
-<li>数字千分符问题</li>
-<li>货币格式化问题</li>
-<li>密码校验问题</li>
-</ol>
-</li>
-</ol>
-<h2 id="括号的妙用"><a href="#括号的妙用" class="headerlink" title="括号的妙用"></a>括号的妙用</h2><h3 id="1-分组"><a href="#1-分组" class="headerlink" title="1. 分组"></a>1. 分组</h3><p>表示一个整体</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &quot;ababa abbb ababab&quot;;</span><br><span class="line"></span><br><span class="line">let reg1 &#x3D; &#x2F;(ab)+&#x2F;g;</span><br><span class="line">console.log( string.match(reg1) ); </span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;abab&quot;, &quot;ab&quot;, &quot;ababab&quot;]</span><br><span class="line"></span><br><span class="line">let reg2 &#x3D; &#x2F;ab+&#x2F;g;</span><br><span class="line">console.log( string.match(reg2) ); </span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;ab&quot;, &quot;ab&quot;, &quot;abbb&quot;, &quot;ab&quot;, &quot;ab&quot;, &quot;ab&quot;]</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-分支结构"><a href="#2-分支结构" class="headerlink" title="2. 分支结构"></a>2. 分支结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let reg &#x3D; &#x2F;^Hello (World|changba)$&#x2F;;</span><br><span class="line">console.log( reg.test(&quot;Hello World&quot;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; true</span><br><span class="line"></span><br><span class="line">console.log( reg.test(&quot;Hello changba&quot;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; true</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-引用分组"><a href="#3-引用分组" class="headerlink" title="3. 引用分组"></a>3. 引用分组</h3><pre><code>这是很重要的一个功能，常常用来作为数据的提取以及替换的操作，将需要操作的部分用括号括起来之后，就可以提取或者替换。
-</code></pre>
-<h4 id="一个常见的日期的提取功能"><a href="#一个常见的日期的提取功能" class="headerlink" title="一个常见的日期的提取功能"></a>一个常见的日期的提取功能</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &quot;2020-12-11&quot;;</span><br><span class="line">let regex1 &#x3D; &#x2F;\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;&#x2F;;</span><br><span class="line">let regex2 &#x3D; &#x2F;(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( string.match(regex1) ); </span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( string.match(regex2) ); </span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( reg1.exec(string) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( reg2.exec(string) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
-
-<h4 id="括号的嵌套怎么搞？结果是什么"><a href="#括号的嵌套怎么搞？结果是什么" class="headerlink" title="括号的嵌套怎么搞？结果是什么"></a>括号的嵌套怎么搞？结果是什么</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &#39;2020-12-11&#39;;</span><br><span class="line">let reg &#x3D; &#x2F;((\d&#123;4&#125;)-(\d&#123;2&#125;))-(\d&#123;2&#125;)&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( string.match(reg) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020-12&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
-
-<p>依据左括号 ( 出现的顺序。</p>
-<h4 id="额外小问题"><a href="#额外小问题" class="headerlink" title="额外小问题"></a>额外小问题</h4><p>match 和 exec 的区别？</p>
-<ol>
-<li>exec是RegExp类的方法，match是String类的方法</li>
-<li>exec 只会匹配第一个符合的字符串（意味着g对其不起作用），跟所有分组的反向引用。match 是否返回所有匹配的数组跟正则表达式里是否带着g有关系</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let str &#x3D; &#39;hello world, hello beijing!&#39;;</span><br><span class="line">let reg1 &#x3D; &#x2F;hello&#x2F;;</span><br><span class="line">let reg2 &#x3D; &#x2F;hello&#x2F;g;</span><br><span class="line"></span><br><span class="line">console.log( str.match(reg1) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;hello&quot;, index: 0, input: &quot;hello world, hello beijing!&quot;, groups: undefined]</span><br><span class="line">console.log( reg1.exec(str) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;hello&quot;, index: 0, input: &quot;hello world, hello beijing!&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( str.match(reg2) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;hello&quot;, &quot;hello&quot;]</span><br><span class="line">console.log( reg2.exec(str) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;hello&quot;, index: 0, input: &quot;hello world, hello beijing!&quot;, groups: undefined]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="再一个额外小问题"><a href="#再一个额外小问题" class="headerlink" title="再一个额外小问题"></a>再一个额外小问题</h4><p>match 方法的返回值，为什么有的时候有 input 和 index ，有的时候没有？</p>
-<p>和是否是全局匹配有关系，全局匹配时没有。</p>
-<h4 id="最后一个额外小知识"><a href="#最后一个额外小知识" class="headerlink" title="最后一个额外小知识"></a>最后一个额外小知识</h4><p>match 返回值字段含义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log( string.match(regex2) ); </span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>match方法在有匹配结果的时候返回值是一个数组。</li>
-<li>数组第一个元素是match方法首次匹配到的子字符串，如果有引用分组，则接下来是引用分组的匹配内容</li>
-<li>index属性值返回首次匹配到子字符串的位置。</li>
-<li>input属性值是原字符串。</li>
-<li>groups属性当前并不被支持，暂时不做介绍。</li>
-</ol>
-<p>没匹配到则只返回 null</p>
-<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>当使用引用分组，且匹配成功，可以使用构造函数的全局属性 <code>$1</code> 至 <code>$9</code> 来获取</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &quot;2020-12-11&quot;;</span><br><span class="line"></span><br><span class="line">let regex &#x3D; &#x2F;(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)&#x2F;;</span><br><span class="line"></span><br><span class="line">regex.exec(string); &#x2F;&#x2F; 这里用什么方式都行，只要执行了正则匹配</span><br><span class="line">&#x2F;&#x2F; regex.test(string)</span><br><span class="line">&#x2F;&#x2F; string.match(regex)</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$1 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;2020&quot;</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$2 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;12&quot;</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$3 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;11&quot;</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$4 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;&quot;</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$0 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; undefined</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="当括号超过十个呢？"><a href="#当括号超过十个呢？" class="headerlink" title="当括号超过十个呢？"></a>当括号超过十个呢？</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let reg &#x3D; &#x2F;(\d(\d(\d(\d(\d(\d(\d(\d(\d(\d\d(\d)))))))))))&#x2F;;</span><br><span class="line">let str &#x3D; &#39;12345678901&#39;;</span><br><span class="line"></span><br><span class="line">console.log( str.match(reg) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;12345678901&quot;, &quot;12345678901&quot;, &quot;2345678901&quot;, &quot;345678901&quot;, &quot;45678901&quot;, &quot;5678901&quot;, &quot;678901&quot;, &quot;78901&quot;, &quot;8901&quot;, &quot;901&quot;, &quot;01&quot;, &quot;1&quot;, index: 0, input: &quot;12345678901&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( str.replace(reg, &#39;$9--$10--$11&#39;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;901--01--1&quot;</span><br><span class="line"></span><br><span class="line">console.log( RegExp.$9 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;901&quot;</span><br><span class="line">console.log( RegExp.$10 );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; undefined</span><br></pre></td></tr></table></figure>
+    +keep-mobile() {
+      font-size: $article-title-font-size * 0.8;
+    }
+  }
 
 
-<h3 id="4-反向引用"><a href="#4-反向引用" class="headerlink" title="4. 反向引用"></a>4. 反向引用</h3><h4 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h4><p>传入一个日期，要求验证其满足一下形式之一。<code>2020-12-11</code>、<code>2020.12.11</code>、<code>2020/12/11</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var regex &#x3D; &#x2F;\d&#123;4&#125;(-|\&#x2F;|\.)\d&#123;2&#125;(-|\&#x2F;|\.)\d&#123;2&#125;&#x2F;;</span><br><span class="line">var string1 &#x3D; &quot;2020-12-11&quot;;</span><br><span class="line">var string2 &#x3D; &quot;2020&#x2F;12&#x2F;11&quot;;</span><br><span class="line">var string3 &#x3D; &quot;2020.12.11&quot;;</span><br><span class="line">console.log( regex.test(string1) ); &#x2F;&#x2F; true</span><br><span class="line">console.log( regex.test(string2) ); &#x2F;&#x2F; true</span><br><span class="line">console.log( regex.test(string3) ); &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+  .article-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
-<p>上述代码看似满足了需求，但是会出现以下情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var string4 &#x3D; &quot;2020-12&#x2F;11&quot;;</span><br><span class="line">console.log( regex.test(string4) ); &#x2F;&#x2F; true</span><br><span class="line"></span><br><span class="line">var string5 &#x3D; &quot;2020.12-11&quot;;</span><br><span class="line">console.log( regex.test(string5) ); &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure>
+    .avatar {
+      position: absolute;
+      top: 0
+      left: 0;
+      width: $avatarWidth;
+      height: $avatarWidth;
+      padding: 1px;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
 
-<p>怎么解决？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var regex &#x3D; &#x2F;\d&#123;4&#125;(-|\&#x2F;|\.)\d&#123;2&#125;\1\d&#123;2&#125;&#x2F;;</span><br><span class="line">var string1 &#x3D; &quot;2020-12-11&quot;;</span><br><span class="line">var string2 &#x3D; &quot;2020&#x2F;12&#x2F;11&quot;;</span><br><span class="line">var string3 &#x3D; &quot;2020.12.11&quot;;</span><br><span class="line">var string4 &#x3D; &quot;2020-12&#x2F;11&quot;;</span><br><span class="line">var string4 &#x3D; &quot;2020.12-11&quot;;</span><br><span class="line">console.log( regex.test(string1) ); &#x2F;&#x2F; true</span><br><span class="line">console.log( regex.test(string2) ); &#x2F;&#x2F; true</span><br><span class="line">console.log( regex.test(string3) ); &#x2F;&#x2F; true</span><br><span class="line">console.log( regex.test(string4) ); &#x2F;&#x2F; false</span><br><span class="line">console.log( regex.test(string5) ); &#x2F;&#x2F; false</span><br></pre></td></tr></table></figure>
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background: var(--avatar-background-color);
+      }
 
-<p>可以看到上述正则中 \1 是对前面括号内容的引用。实现了前后统一。反向引用指的是可以在正则本身里面引用之前的分组，即前面出现了某个字符，后面可以通过反向引用来拿到这个字符，然后进行想要的操作，如果引用的分组不存在，那么 \1 就是简单的对字符 1 做了转义。。</p>
-<p>一个提问</p>
-<p>请给出一个符合下面正则要求的字符串</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var regex &#x3D; &#x2F;^((\d)(\d))\1\2\3$&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( regex.test(&#39;121212&#39;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; true</span><br></pre></td></tr></table></figure>
-
-<p>这个呢？</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var regex &#x3D; &#x2F;^((\d)(\d(\d)))\1\2\3\4$&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( regex.test(&#39;1231231233&#39;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; true</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-命名分组"><a href="#5-命名分组" class="headerlink" title="5. 命名分组"></a>5. 命名分组</h3><p>前面讲捕获分组都是通过位置编号来访问，还支持对捕获分组命名。这样就比较容易理解。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &#39;2020-12-11&#39;;</span><br><span class="line">let reg &#x3D; &#x2F;((?&lt;year&gt;\d&#123;4&#125;)-(?&lt;month&gt;\d&#123;2&#125;))-(?&lt;day&gt;\d&#123;2&#125;)&#x2F;</span><br><span class="line"></span><br><span class="line">string.match(reg);</span><br><span class="line"></span><br><span class="line">(5) [&quot;2020-12-11&quot;, &quot;2020-12&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: &#123;…&#125;]</span><br><span class="line">    0: &quot;2020-12-11&quot;</span><br><span class="line">    1: &quot;2020-12&quot;</span><br><span class="line">    2: &quot;2020&quot;</span><br><span class="line">    3: &quot;12&quot;</span><br><span class="line">    4: &quot;11&quot;</span><br><span class="line">    groups:</span><br><span class="line">        day: &quot;11&quot;</span><br><span class="line">        month: &quot;12&quot;</span><br><span class="line">        year: &quot;2020&quot;</span><br><span class="line">    index: 0</span><br><span class="line">    input: &quot;2020-12-11&quot;</span><br><span class="line">    length: 5</span><br><span class="line">    __proto__: Array(0)</span><br></pre></td></tr></table></figure>
-
-<h4 id="命字分组的反向引用"><a href="#命字分组的反向引用" class="headerlink" title="命字分组的反向引用"></a>命字分组的反向引用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let reg &#x3D; &#x2F;(?&lt;year&gt;\d&#123;4&#125;)-(?&lt;month&gt;\d&#123;2&#125;--\k&lt;year&gt;)&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( reg.test(&#39;2020-12--2020&#39;) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; true</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-非捕获分组"><a href="#6-非捕获分组" class="headerlink" title="6. 非捕获分组"></a>6. 非捕获分组</h3><p>之前文中出现的分组，都会捕获它们匹配到的数据，以便后续引用，因此也称他们是捕获型分组。</p>
-<p>而非捕获分组顾名思义，与捕获分组相反，就是不会将分组匹配的内容放在内存中。主要是为了提高性能。<br>使用方法：在分组的开头加上?:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let string &#x3D; &#39;2020-12-11&#39;;</span><br><span class="line">let reg1 &#x3D; &#x2F;(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)&#x2F;;</span><br><span class="line">let reg2 &#x3D; &#x2F;(\d&#123;4&#125;)-(\d&#123;2&#125;)-(?:\d&#123;2&#125;)&#x2F;;</span><br><span class="line"></span><br><span class="line">console.log( string.match(reg1) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020&quot;, &quot;12&quot;, &quot;11&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br><span class="line"></span><br><span class="line">console.log( string.match(reg2) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; [&quot;2020-12-11&quot;, &quot;2020&quot;, &quot;12&quot;, index: 0, input: &quot;2020-12-11&quot;, groups: undefined]</span><br></pre></td></tr></table></figure>
-
-<h3 id="7-常见的正则方法"><a href="#7-常见的正则方法" class="headerlink" title="7. 常见的正则方法"></a>7. 常见的正则方法</h3><ol>
-<li>trim</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let trim &#x3D; str &#x3D;&gt; str.replace(&#x2F;^\s+|\s+$&#x2F;g, &#39;&#39;);</span><br><span class="line">let str &#x3D; &#39;  123  &#39;;</span><br><span class="line"></span><br><span class="line">console.log( trim(str) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;123&quot;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>句子里单词首字母大写</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let func &#x3D; str &#x3D;&gt; str.toLowerCase().replace(&#x2F;(?:^|\s)\w&#x2F;g, word &#x3D;&gt; word.toUpperCase());</span><br><span class="line"></span><br><span class="line">let str &#x3D; &#39;hello world, i am liuzedong&#39;;</span><br><span class="line"></span><br><span class="line">console.log( func(str) );</span><br><span class="line">&#x2F;&#x2F; &#x3D;&gt; &quot;Hello World, I Am Liuzedong&quot;</span><br></pre></td></tr></table></figure>
-        </div>
-
-        
-
-        
-            <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2021/01/%E4%B8%80%E5%90%8D%E5%89%8D%E7%AB%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E4%BD%8D%E8%BF%90%E7%AE%97%E4%BF%AE%E5%85%BB/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">一名前端的基础位运算修养</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/2019/12/%E5%86%99%E4%BA%8E2019%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%99%9A%E4%B8%8A/"
-                        >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">写于2019的最后一个晚上</span>
-                                <span class="post-nav-item">Next posts</span>
-                            </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
-
-        
-            <div class="comment-container">
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
-    </div>
-    
-
-        
-            
-    <div class="valine-container">
-        <script data-pjax
-                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-        <div id="vcomments"></div>
-        <script data-pjax>
-            function loadValine() {
-                new Valine({
-                    el: '#vcomments',
-                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
-                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
-                    meta: ['nick', 'mail', 'link'],
-                    avatar: 'wavatar',
-                    enableQQ: true,
-                    placeholder: '',
-                    lang: 'en'.toLowerCase()
-                });
-
-                function getAuthor(language) {
-                    switch (language) {
-                        case 'en':
-                            return 'Author';
-                        case 'zh-CN':
-                            return '博主';
-                        default:
-                            return 'Master';
-                    }
-                }
-
-                // Add "Author" identify
-                const getValineDomTimer = setInterval(() => {
-                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
-                    if (vcards.length > 0) {
-                        let author = 'sansiro';
-
-                        if (author) {
-                            for (let vcard of vcards) {
-                                const vnick_dom = vcard.querySelector('.vhead .vnick');
-                                const vnick = vnick_dom.innerHTML;
-                                if (vnick === author) {
-                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
-                                }
-                            }
-                        }
-                        clearInterval(getValineDomTimer);
-                    } else {
-                        clearInterval(getValineDomTimer);
-                    }
-                }, 2000);
-            }
-
-            if ('true') {
-                const loadValineTimeout = setTimeout(() => {
-                    loadValine();
-                    clearTimeout(loadValineTimeout);
-                }, 1000);
-            } else {
-                window.addEventListener('DOMContentLoaded', loadValine);
-            }
-        </script>
-    </div>
+    }
 
 
+    .info {
+      padding: 2px 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
 
-        
-    
-</div>
+      .author {
+        font-weight: 600;
+        font-size: 1.18rem;
+        display: flex;
+        align-items: center;
 
-            </div>
-        
-    </div>
-</div>
+        .name {
+          color: var(--default-text-color);
+        }
+
+        .author-label {
+          margin-left: 10px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          padding: 0 5px;
+          border-radius: 5px;
+          color: #fff;
+          background: var(--selection-color);
+        }
+
+      }
+    }
+
+  }
+
+
+  .article-header, .article-header-meta-info {
+    margin-top: 16px;
+    +keep-tablet() {
+      transform: scale(0.9);
+      transform-origin: left top;
+    }
+  }
+
+
+  .article-content {
+    margin-top: $component-spacing-value;
+    padding-bottom: 10px;
+    word-wrap: break-word;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--default-text-color);
+  }
+
+  .post-copyright-info {
+    margin-top: $component-spacing-value;
+    width: 100%;
+  }
+
+  .article-nav {
+    height: 40px;
+    margin-top: $component-spacing-value;
+
+    .article-prev, .article-next {
+      max-width: $post-nav-max-width;
+      height: 100%;
+      box-sizing: border-box;
+
+      keep-container(true, 1.03, 1.03, 10px, 0);
+
+      a {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        &.prev {
+          padding-left: $arrow-icon-width;
+        }
+
+        &.next {
+          padding-right: $arrow-icon-width;
+        }
+
+        .arrow-icon {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: $arrow-icon-width;
+
+          &.left {
+            left: 0;
+          }
+
+          &.right {
+            right: 0;
+          }
+        }
+
+        .title {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+    }
+
+    .article-prev {
+      float: left;
+    }
+
+    .article-next {
+      float: right;
+    }
+
+    .post-nav-item {
+      display: none;
+
+      +keep-tablet() {
+        display: inline-block;
+      }
+
+    }
+
+
+    .post-nav-title-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      +keep-tablet() {
+        display: none;
+      }
+    }
+
+  }
+
+
+}
+
 
 
                 

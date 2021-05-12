@@ -148,221 +148,195 @@
             <div class="main-content">
 
                 
-                    <div class="fade-in-down-animation">
-    <div class="article-content-container">
+                    $avatarWidth = 46px;
+$arrow-icon-width = 16px;
+$post-nav-max-width = 220px;
+$article-title-font-size = 1.6rem;
 
-        <div class="article-title">
-            <span class="title-hover-animation">JS正则表达式学习一</span>
-        </div>
+.article-content-container {
 
-        
-            <div class="article-header">
-                <!-- <div class="avatar">
-                    <img src="/images/avatar.svg">
-                </div> -->
-                <div class="info">
-                    <!-- <div class="author">
-                        <span class="name">sansiro</span>
-                        
-                            <span class="author-label">Lv2</span>
-                        
-                    </div> -->
-                    <div class="meta-info">
-                        <div class="article-meta-info">
-    <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2018-11-21 11:52:41
-    </span>
-    
-    
-        <span class="article-tags article-meta-item">
-            <i class="fas fa-tags"></i>&nbsp;
-            <ul>
-                
-                    <li>
-                        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>&nbsp;
-                    </li>
-                
-                    <li>
-                        | <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
-                    </li>
-                
-            </ul>
-        </span>
-    
+  keep-container(false, 0, 0, 30px, 30px);
 
-    
-    
-        <span class="article-wordcount article-meta-item">
-            <i class="fas fa-file-word"></i>&nbsp;<span>1k Words</span>
-        </span>
-    
-    
-        <span class="article-min2read article-meta-item">
-            <i class="fas fa-clock"></i>&nbsp;<span>3 Mins</span>
-        </span>
-    
-    
-</div>
+  .article-title {
+    color: var(--second-text-color);
+    font-weight: 600;
+    font-size: $article-title-font-size;
 
-                    </div>
-                </div>
-            </div>
-        
+    +keep-tablet() {
+      font-size: $article-title-font-size * 0.9;
+    }
 
-        <div class="article-content markdown-body">
-            <blockquote>
-<p>读到了老姚的正则表达式文章，对于正则表达式有了一个新的学习。在正则这块很多时候自己都是现用现查，很多地方都是囫囵吞枣。阅读老姚的新著，重新学习<code>JS</code>的正则表达式。分几个部分写一下读后笔记吧。</p>
-</blockquote>
-<p>先贴一下老姚文章的<a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/5965943ff265da6c30653879" >地址<i class="fas fa-external-link-alt"></i></a>。一七年的文章现在才看到，汗😓</p>
-<p>文章共分七个章节介绍正则，我们这里主要做一下总结。</p>
-<h4 id="1-首先，正则是匹配模式，要么匹配字符，要么匹配位置。"><a href="#1-首先，正则是匹配模式，要么匹配字符，要么匹配位置。" class="headerlink" title="1. 首先，正则是匹配模式，要么匹配字符，要么匹配位置。"></a>1. 首先，正则是匹配模式，要么匹配字符，要么匹配位置。</h4><p>日常使用到最多的就是字符的匹配，比如说手机号的校验，用户昵称的校验等，很少会用到位置的匹配。但是其实我们常用的<code>^</code>、<code>$</code>就是匹配位置的锚字符。关于具体的内容稍后在总结，重要的是这个宗旨要有。</p>
-<h4 id="2-常用的字符匹配模式"><a href="#2-常用的字符匹配模式" class="headerlink" title="2. 常用的字符匹配模式"></a>2. 常用的字符匹配模式</h4><p>正则表达式的强大就在于他的模糊匹配。文章把这块分成两个部分</p>
-<ul>
-<li>横向模糊匹配</li>
-</ul>
-<p>这个是指字符串长度的模糊，最常用的如<code>&#123;m,n&#125;</code>指连续出现最少m次，最多n次。比如常用的手机号匹配<code>/^1\d&#123;10&#125;$/</code>，指以 1 开头，后面出现十个数字的字符串。这里的<code>&#123;10&#125;</code>是<code>&#123;10,10&#125;</code>的简写，意思是只能出现十次。</p>
-<ul>
-<li>纵向模糊匹配</li>
-</ul>
-<p>这部分是指某个字符可能是不确定的，比如<code>[abc]</code>指这个字符可以是 ‘a’、’b’ 或者 ‘c’。比如限制用户输入的内容只能是数字或者字母的时候，可以使用<code>/^[0-9a-zA-Z]&#123;5,10&#125;$/</code>。</p>
-<h4 id="3-字符组的简写和量词的简写"><a href="#3-字符组的简写和量词的简写" class="headerlink" title="3. 字符组的简写和量词的简写"></a>3. 字符组的简写和量词的简写</h4><ul>
-<li>字符组的简写</li>
-</ul>
-<p>这里我们把<code>[abc]</code>这种形式称为字符组，如<code>/^[0-9a-zA-Z]&#123;5,10&#125;$/</code>这样的是简写的形式，<code>-</code>表示范围。除此之外还有排除字符组，如<code>[^abc]</code>表示这个字符不能是 ‘a’、’b’ 或者 ‘c’。另外还有常见的简写形式。</p>
-<blockquote>
-<p><code>\d</code>就是<code>[0-9]</code>。表示是一位数字。记忆方式：其英文是digit（数字）。<br><code>\D</code>就是<code>[^0-9]</code>。表示除数字外的任意字符。<br><code>\w</code>就是<code>[0-9a-zA-Z_]</code>。表示数字、大小写字母和下划线。记忆方式：w是word的简写，也称单词字符。<br><code>\W</code>是<code>[^0-9a-zA-Z_]</code>。非单词字符。<br><code>\s</code>是<code>[\t\v\n\r\f]</code>。表示空白符，包括空格、水平制表符、垂直制表符、换行符、回车符、换页符。记忆方式：s是space character的首字母。<br><code>\S</code>是<code>[^\t\v\n\r\f]</code>。 非空白符。<br><code>.</code>就是<code>[^\n\r\u2028\u2029]</code>。通配符，表示几乎任意字符。换行符、回车符、行分隔符和段分隔符除外。记忆方式：想想省略号…中的每个点，都可以理解成占位符，表示任何类似的东西。</p>
-</blockquote>
-<ul>
-<li>量词的简写</li>
-</ul>
-<p><code>&#123;m,&#125;</code> 表示至少出现m次。<br><code>&#123;m&#125;</code> 等价于<code>&#123;m,m&#125;</code>，表示出现m次。<br><code>?</code> 等价于<code>&#123;0,1&#125;</code>，表示出现或者不出现。记忆方式：问号的意思表示，有吗？<br><code>+</code> 等价于<code>&#123;1,&#125;</code>，表示出现至少一次。记忆方式：加号是追加的意思，得先有一个，然后才考虑追加。<br><code>*</code> 等价于<code>&#123;0,&#125;</code>，表示出现任意次，有可能不出现。记忆方式：看看天上的星星，可能一颗没有，可能零散有几颗，可能数也数不过来。</p>
-<h4 id="4-贪婪匹配和惰性匹配"><a href="#4-贪婪匹配和惰性匹配" class="headerlink" title="4. 贪婪匹配和惰性匹配"></a>4. 贪婪匹配和惰性匹配</h4><p>贪婪匹配是指，在匹配中如果出现量词区间，他就会尽可能多的去匹配，所以叫贪婪匹配。</p>
-<p>比如说 <code>/\d&#123;2,5&#125;/</code> ，可以匹配二到五次，他会尝试着匹配，知道不符合。这个会引发一个回溯的问题，等会儿会说。</p>
-<p>与贪婪匹配相对的是惰性匹配，意思是二到五次的话，够了两次就不接着匹配了。如 <code>/\d&#123;2,5&#125;?/</code> 。在后面加个问号就变成了惰性匹配。</p>
-
-        </div>
-
-        
-
-        
-            <div class="article-nav">
-                
-                    <div class="article-prev">
-                        <a class="prev"
-                           rel="prev"
-                           href="/2018/11/JS%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E4%BA%8C/"
-                        >
-                            <span class="left arrow-icon flex-center">
-                              <i class="fas fa-chevron-left"></i>
-                            </span>
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">JS正则表达式学习二</span>
-                                <span class="post-nav-item">Prev posts</span>
-                            </span>
-                        </a>
-                    </div>
-                
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/2018/08/%E4%BD%BF%E7%94%A8promise%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0%E9%87%8F/"
-                        >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">使用promise控制并发数量</span>
-                                <span class="post-nav-item">Next posts</span>
-                            </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
-                            </span>
-                        </a>
-                    </div>
-                
-            </div>
-        
-
-        
-            <div class="comment-container">
-                <div class="comments-container">
-    <div id="comment-anchor"></div>
-    <div class="comment-area-title">
-        <i class="fas fa-comments">&nbsp;Comments</i>
-    </div>
-    
-
-        
-            
-    <div class="valine-container">
-        <script data-pjax
-                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
-        <div id="vcomments"></div>
-        <script data-pjax>
-            function loadValine() {
-                new Valine({
-                    el: '#vcomments',
-                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
-                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
-                    meta: ['nick', 'mail', 'link'],
-                    avatar: 'wavatar',
-                    enableQQ: true,
-                    placeholder: '',
-                    lang: 'en'.toLowerCase()
-                });
-
-                function getAuthor(language) {
-                    switch (language) {
-                        case 'en':
-                            return 'Author';
-                        case 'zh-CN':
-                            return '博主';
-                        default:
-                            return 'Master';
-                    }
-                }
-
-                // Add "Author" identify
-                const getValineDomTimer = setInterval(() => {
-                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
-                    if (vcards.length > 0) {
-                        let author = 'sansiro';
-
-                        if (author) {
-                            for (let vcard of vcards) {
-                                const vnick_dom = vcard.querySelector('.vhead .vnick');
-                                const vnick = vnick_dom.innerHTML;
-                                if (vnick === author) {
-                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
-                                }
-                            }
-                        }
-                        clearInterval(getValineDomTimer);
-                    } else {
-                        clearInterval(getValineDomTimer);
-                    }
-                }, 2000);
-            }
-
-            if ('true') {
-                const loadValineTimeout = setTimeout(() => {
-                    loadValine();
-                    clearTimeout(loadValineTimeout);
-                }, 1000);
-            } else {
-                window.addEventListener('DOMContentLoaded', loadValine);
-            }
-        </script>
-    </div>
+    +keep-mobile() {
+      font-size: $article-title-font-size * 0.8;
+    }
+  }
 
 
+  .article-header {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
 
-        
-    
-</div>
+    .avatar {
+      position: absolute;
+      top: 0
+      left: 0;
+      width: $avatarWidth;
+      height: $avatarWidth;
+      padding: 1px;
+      box-sizing: border-box;
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
 
-            </div>
-        
-    </div>
-</div>
+      img {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        background: var(--avatar-background-color);
+      }
+
+    }
+
+
+    .info {
+      padding: 2px 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+
+      .author {
+        font-weight: 600;
+        font-size: 1.18rem;
+        display: flex;
+        align-items: center;
+
+        .name {
+          color: var(--default-text-color);
+        }
+
+        .author-label {
+          margin-left: 10px;
+          font-size: 0.8rem;
+          font-weight: 500;
+          padding: 0 5px;
+          border-radius: 5px;
+          color: #fff;
+          background: var(--selection-color);
+        }
+
+      }
+    }
+
+  }
+
+
+  .article-header, .article-header-meta-info {
+    margin-top: 16px;
+    +keep-tablet() {
+      transform: scale(0.9);
+      transform-origin: left top;
+    }
+  }
+
+
+  .article-content {
+    margin-top: $component-spacing-value;
+    padding-bottom: 10px;
+    word-wrap: break-word;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--default-text-color);
+  }
+
+  .post-copyright-info {
+    margin-top: $component-spacing-value;
+    width: 100%;
+  }
+
+  .article-nav {
+    height: 40px;
+    margin-top: $component-spacing-value;
+
+    .article-prev, .article-next {
+      max-width: $post-nav-max-width;
+      height: 100%;
+      box-sizing: border-box;
+
+      keep-container(true, 1.03, 1.03, 10px, 0);
+
+      a {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        &.prev {
+          padding-left: $arrow-icon-width;
+        }
+
+        &.next {
+          padding-right: $arrow-icon-width;
+        }
+
+        .arrow-icon {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          width: $arrow-icon-width;
+
+          &.left {
+            left: 0;
+          }
+
+          &.right {
+            right: 0;
+          }
+        }
+
+        .title {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+    }
+
+    .article-prev {
+      float: left;
+    }
+
+    .article-next {
+      float: right;
+    }
+
+    .post-nav-item {
+      display: none;
+
+      +keep-tablet() {
+        display: inline-block;
+      }
+
+    }
+
+
+    .post-nav-title-item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      +keep-tablet() {
+        display: none;
+      }
+    }
+
+  }
+
+
+}
+
 
 
                 
