@@ -148,195 +148,220 @@
             <div class="main-content">
 
                 
-                    $avatarWidth = 46px;
-$arrow-icon-width = 16px;
-$post-nav-max-width = 220px;
-$article-title-font-size = 1.6rem;
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
 
-.article-content-container {
+        <div class="article-title">
+            <span class="title-hover-animation">基于角色的后台权限控制实现</span>
+        </div>
 
-  keep-container(false, 0, 0, 30px, 30px);
+        
+            <div class="article-header">
+                <!-- <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div> -->
+                <div class="info">
+                    <!-- <div class="author">
+                        <span class="name">sansiro</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div> -->
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2019-09-20 18:10:09
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%89%8D%E7%AB%AF/">前端</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Vue/">Vue</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
-  .article-title {
-    color: var(--second-text-color);
-    font-weight: 600;
-    font-size: $article-title-font-size;
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>1.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>5 Mins</span>
+        </span>
+    
+    
+</div>
 
-    +keep-tablet() {
-      font-size: $article-title-font-size * 0.9;
-    }
+                    </div>
+                </div>
+            </div>
+        
 
-    +keep-mobile() {
-      font-size: $article-title-font-size * 0.8;
-    }
-  }
+        <div class="article-content markdown-body">
+            <p>对于后台的权限控制是非常重要的，每个人拥有不同的权限，每个人做的事情都不一样，这是非常重要的。用户只能看到他该看到的，只能修改他该修改的。这样才能做到安全的控制。</p>
+<h4 id="1-什么是权限控制"><a href="#1-什么是权限控制" class="headerlink" title="1. 什么是权限控制"></a>1. 什么是权限控制</h4><p>对于后台的权限控制，大家用到最多的就是基于角色的权限控制。简单来说就是把给用户一个角色，这个角色拥有什么权限，用户就拥有什么权限。用户和角色是多对一的，也就是一个用户只能有一种角色，一个角色可以被很多用户拥有。</p>
+<p>这样就像用户和用户组一样，只要管理好角色的权限然后赋予用户都个角色就可以达到目的。</p>
+<h4 id="2-设计思想"><a href="#2-设计思想" class="headerlink" title="2. 设计思想"></a>2. 设计思想</h4><p>在前端，我觉得对于用户来说应该是所见即所得，也就是能看到的就都是有权限的，不存在明明在那但是不能点的按钮。所以就需要对于路由和按钮都要做控制。</p>
+<p>简单来说，根据用户的权限来过滤路由，最后只得到用户有权限的路由，在页面内，也要根据权限来隐藏部分内容（如用户只有读权限没有写权限的话，修改和添加按钮就不能展示）。</p>
+<h4 id="3-前端该怎么做"><a href="#3-前端该怎么做" class="headerlink" title="3. 前端该怎么做"></a>3. 前端该怎么做</h4><p>首先是路由的问题，这里我们把路由分为三个部分：基础路由（直接就有的路由，如登陆）、普遍路由（需要后添加，但是不用权限验证的路由，如首页和个人中心）、权限路由（需要权限验证的路由）。</p>
+<p>一开始只有一个登陆的页面，登陆之后拿到用户拥有的权限之后就开始路由的过滤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRealRoute</span>(<span class="params">userRoute</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> ins = routes;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; ins.length; j++) &#123;</span><br><span class="line">    <span class="keyword">let</span> item = ins[j];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有子节点，遍历子节点</span></span><br><span class="line">    <span class="keyword">if</span>(item.children &amp;&amp; item.children.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; item.children.length; i++) &#123;</span><br><span class="line">        <span class="comment">// 如果子节点没有权限的话，就删掉</span></span><br><span class="line">        <span class="keyword">if</span>(!<span class="built_in">Object</span>.keys(userRoute).includes(item.children[i].name)) &#123;</span><br><span class="line">          ins[j].children.splice(i, <span class="number">1</span>);</span><br><span class="line">          </span><br><span class="line">          i--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">// 是否有写权限</span></span><br><span class="line">          <span class="keyword">if</span>(userRoute[item.children[i].name].write) &#123;</span><br><span class="line">            ins[j].children[i].meta.write = <span class="literal">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">else</span> &#123;</span><br><span class="line">            ins[j].children[i].meta.write = <span class="literal">false</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 如果所有子节点都没权限的话，父节点删掉</span></span><br><span class="line">      <span class="keyword">if</span>(item.children &amp;&amp; item.children.length &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        ins.splice(j, <span class="number">1</span>);</span><br><span class="line">        j--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 没有子节点，也没有权限的话，就删掉</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(!<span class="built_in">Object</span>.keys(userRoute).includes(item.name)) &#123;</span><br><span class="line">      ins.splice(j, <span class="number">1</span>);</span><br><span class="line">      j--;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ins 就是过滤之后，用户有权限的路由</span></span><br><span class="line"></span><br><span class="line">  needToAdd = needToAdd.concat(ins);</span><br><span class="line"></span><br><span class="line">  needToAdd[<span class="number">0</span>].children = [].concat(base, ins);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">  store.dispatch(<span class="string">&#x27;permission/saveRoutes&#x27;</span>, needToAdd);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用 router 对象的方法添加路由</span></span><br><span class="line">  router.addRoutes(needToAdd);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [].concat(base, ins);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>这是简单的路由过滤，因为我们规定只能有一层子菜单，所以不需要用到深度遍历。这样我们就拿到了这个用户有权限的路由，然后在改变页面的时候使用 <code>store</code> 记录对于当前页面的具体权限（读、写）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(to.name == <span class="string">&#x27;login&#x27;</span>) &#123;</span><br><span class="line">    next();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(store.state.permission.getToken) &#123;</span><br><span class="line">    <span class="keyword">if</span>(to.meta) &#123;</span><br><span class="line">      <span class="comment">// 记录用户对于当前页面的读写权限</span></span><br><span class="line">      store.dispatch(<span class="string">&#x27;permission/setPageWrite&#x27;</span>, <span class="built_in">Boolean</span>(to.meta.write));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!store.state.permission.account) &#123;</span><br><span class="line">      store.dispatch(<span class="string">&#x27;permission/getInfo&#x27;</span>).then(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        next(&#123; ...to, <span class="attr">replace</span>: <span class="literal">true</span> &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      next();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    next(&#123; <span class="attr">path</span>: <span class="string">&#x27;/login&#x27;</span> &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-  .article-header {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+<p>然后我们就可以对于当前的页面实现读写级别的控制。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  <span class="function"><span class="title">haswrite</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.$store.getters[<span class="string">&#x27;permission/getWrite&#x27;</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    .avatar {
-      position: absolute;
-      top: 0
-      left: 0;
-      width: $avatarWidth;
-      height: $avatarWidth;
-      padding: 1px;
-      box-sizing: border-box;
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
+<h4 id="4-后端该怎么做"><a href="#4-后端该怎么做" class="headerlink" title="4. 后端该怎么做"></a>4. 后端该怎么做</h4><p>后端要做的其实就是两个事情：存储角色的权限、接口权限的验证。</p>
+<p>存储角色的权限只是将结果前端修改之后的一串 json 存储下来。权限验证的话我这里通过使用 php <code>lumen</code> 框架的中间件来实现：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">checkAuth</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 获取需要权限验证的接口，以及接口需要的权限</span></span><br><span class="line">    <span class="variable">$authList</span> = <span class="keyword">$this</span>-&gt;auth-&gt;getInterNeedCheck();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不在验证列表里的就不验证</span></span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$authList</span>[<span class="keyword">$this</span>-&gt;nowAction])) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个接口需要什么权限</span></span><br><span class="line">    <span class="variable">$needPower</span> = <span class="variable">$authList</span>[<span class="keyword">$this</span>-&gt;nowAction];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取用户拥有的权限</span></span><br><span class="line">    session_start();</span><br><span class="line">    <span class="variable">$have</span> = <span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;admin&#x27;</span>]) ? <span class="variable">$_SESSION</span>[<span class="string">&#x27;admin&#x27;</span>]-&gt;route : <span class="literal">null</span>;</span><br><span class="line">    session_write_close();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!<span class="variable">$have</span> || !is_array(<span class="variable">$have</span>) || count(<span class="variable">$have</span>) &lt; <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断权限是否满足</span></span><br><span class="line">    <span class="keyword">foreach</span>(array_keys(<span class="variable">$needPower</span>) <span class="keyword">as</span> <span class="variable">$item</span>) &#123;</span><br><span class="line">      <span class="variable">$needSoon</span> = <span class="variable">$have</span>[<span class="variable">$item</span>];</span><br><span class="line">      <span class="variable">$readOrWrite</span> = <span class="variable">$needPower</span>[<span class="variable">$item</span>];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">empty</span>(<span class="variable">$readOrWrite</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 只要有这个路由权限，就一定有读权限</span></span><br><span class="line">      <span class="keyword">if</span>(<span class="variable">$readOrWrite</span> == <span class="string">&#x27;read&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$needSoon</span>[<span class="variable">$readOrWrite</span>]) &amp;&amp; <span class="variable">$needSoon</span>[<span class="variable">$readOrWrite</span>]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background: var(--avatar-background-color);
-      }
+<h4 id="5-怎么管理"><a href="#5-怎么管理" class="headerlink" title="5. 怎么管理"></a>5. 怎么管理</h4><p>前面说了，对于每个角色维护一段 json。如图：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="//cdn.521plus.com/blog/auth-1.png"
+                      alt="img"
+                ></p>
+<p>以上是对于权限控制实现的总结，总的来说做的比较简陋，但是基本实现了对于 <code>用户 - 角色 - 权限</code> 的控制，也只是贴了部分代码。</p>
+<p>后台页面UI组件使用 <a class="link"   target="_blank" rel="noopener" href="https://element.eleme.cn/#/zh-CN" >Element<i class="fas fa-external-link-alt"></i></a> 。挺好用哈哈</p>
 
-    }
+        </div>
 
+        
 
-    .info {
-      padding: 2px 0;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2019/12/%E5%86%99%E4%BA%8E2019%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E6%99%9A%E4%B8%8A/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">写于2019的最后一个晚上</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2019/01/%E9%87%8D%E6%96%B0%E4%BA%86%E8%A7%A3%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">重新了解防抖和节流</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
-      .author {
-        font-weight: 600;
-        font-size: 1.18rem;
-        display: flex;
-        align-items: center;
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
 
-        .name {
-          color: var(--default-text-color);
-        }
+        
+            
+    <div class="valine-container">
+        <script data-pjax
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script data-pjax>
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
+                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '',
+                    lang: 'en'.toLowerCase()
+                });
 
-        .author-label {
-          margin-left: 10px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          padding: 0 5px;
-          border-radius: 5px;
-          color: #fff;
-          background: var(--selection-color);
-        }
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
 
-      }
-    }
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'sansiro';
 
-  }
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
 
-
-  .article-header, .article-header-meta-info {
-    margin-top: 16px;
-    +keep-tablet() {
-      transform: scale(0.9);
-      transform-origin: left top;
-    }
-  }
-
-
-  .article-content {
-    margin-top: $component-spacing-value;
-    padding-bottom: 10px;
-    word-wrap: break-word;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--default-text-color);
-  }
-
-  .post-copyright-info {
-    margin-top: $component-spacing-value;
-    width: 100%;
-  }
-
-  .article-nav {
-    height: 40px;
-    margin-top: $component-spacing-value;
-
-    .article-prev, .article-next {
-      max-width: $post-nav-max-width;
-      height: 100%;
-      box-sizing: border-box;
-
-      keep-container(true, 1.03, 1.03, 10px, 0);
-
-      a {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-
-        &.prev {
-          padding-left: $arrow-icon-width;
-        }
-
-        &.next {
-          padding-right: $arrow-icon-width;
-        }
-
-        .arrow-icon {
-          position: absolute;
-          top: 0;
-          height: 100%;
-          width: $arrow-icon-width;
-
-          &.left {
-            left: 0;
-          }
-
-          &.right {
-            right: 0;
-          }
-        }
-
-        .title {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-    }
-
-    .article-prev {
-      float: left;
-    }
-
-    .article-next {
-      float: right;
-    }
-
-    .post-nav-item {
-      display: none;
-
-      +keep-tablet() {
-        display: inline-block;
-      }
-
-    }
+            if ('true') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
 
 
-    .post-nav-title-item {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
 
-      +keep-tablet() {
-        display: none;
-      }
-    }
+        
+    
+</div>
 
-  }
-
-
-}
-
+            </div>
+        
+    </div>
+</div>
 
 
                 

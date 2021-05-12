@@ -148,195 +148,414 @@
             <div class="main-content">
 
                 
-                    $avatarWidth = 46px;
-$arrow-icon-width = 16px;
-$post-nav-max-width = 220px;
-$article-title-font-size = 1.6rem;
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
 
-.article-content-container {
+        <div class="article-title">
+            <span class="title-hover-animation">一名前端的基础位运算修养</span>
+        </div>
 
-  keep-container(false, 0, 0, 30px, 30px);
+        
+            <div class="article-header">
+                <!-- <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div> -->
+                <div class="info">
+                    <!-- <div class="author">
+                        <span class="name">sansiro</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div> -->
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-01-28 17:34:05
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%89%8D%E7%AB%AF%E4%BF%AE%E5%85%BB/">前端修养</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%88%86%E4%BA%AB%E4%BC%9A/">分享会</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
-  .article-title {
-    color: var(--second-text-color);
-    font-weight: 600;
-    font-size: $article-title-font-size;
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>3.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>14 Mins</span>
+        </span>
+    
+    
+</div>
 
-    +keep-tablet() {
-      font-size: $article-title-font-size * 0.9;
-    }
+                    </div>
+                </div>
+            </div>
+        
 
-    +keep-mobile() {
-      font-size: $article-title-font-size * 0.8;
-    }
-  }
+        <div class="article-content markdown-body">
+            <blockquote>
+<p>一名前端的基础修养系列 —- 位运算</p>
+</blockquote>
+<h2 id="1-进制转换"><a href="#1-进制转换" class="headerlink" title="1. 进制转换"></a>1. 进制转换</h2><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://note.youdao.com/src/WEBRESOURCEc70a587ed687c443701fdbef69be29c7"
+                      alt="img_20210126_191525.jpg"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="WEBRESOURCE2e7fdf8a50c163d7b7557094c1b9ffae"
+                      alt="img_20210126_190700.jpg"
+                ></p>
+<p>js 自带的进制转换api： toString()</p>
+<h2 id="2-十进制数的原码、反码、补码"><a href="#2-十进制数的原码、反码、补码" class="headerlink" title="2. 十进制数的原码、反码、补码"></a>2. 十进制数的原码、反码、补码</h2><blockquote>
+<p>进为什么会有原码、反码、补码？</p>
+<p>是为了解决用二进制表示复数，将人习惯使用的符号转换为机器可以处理的形式。</p>
+<p>那么，什么事原码、反码、补码？</p>
+</blockquote>
+<h2 id="2-十进制数的原码、反码、补码-1"><a href="#2-十进制数的原码、反码、补码-1" class="headerlink" title="2. 十进制数的原码、反码、补码"></a>2. 十进制数的原码、反码、补码</h2><blockquote>
+<p>进为什么会有原码、反码、补码？</p>
+<p>是为了解决用二进制表示复数，将人习惯使用的符号转换为机器可以处理的形式。</p>
+<p>那么，什么事原码、反码、补码？</p>
+</blockquote>
+<h3 id="2-1-概念"><a href="#2-1-概念" class="headerlink" title="2.1 概念"></a>2.1 概念</h3><h4 id="2-1-1-原码"><a href="#2-1-1-原码" class="headerlink" title="2.1.1 原码"></a>2.1.1 原码</h4><p>原码就是符号位加上真值的绝对值, 即用第一位表示符号, 其余位表示值. 比如如果是 8 位二进制:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">十进制 -&gt; 原码</span><br><span class="line"></span><br><span class="line">1  -&gt; 0000 0001</span><br><span class="line">-1 -&gt; 1000 0001</span><br></pre></td></tr></table></figure>
 
+<p>正负数的原码有区别，那 0 呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">十进制 -&gt; 原码</span><br><span class="line"></span><br><span class="line">+0 -&gt; 0000 0000</span><br><span class="line">-0 -&gt; 1000 0000</span><br></pre></td></tr></table></figure>
 
-  .article-header {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+<h4 id="2-1-2-反码"><a href="#2-1-2-反码" class="headerlink" title="2.1.2 反码"></a>2.1.2 反码</h4><ol>
+<li>正数的反码与其原码相同</li>
+<li>负数除了符号位，其他位置均取反</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">十进制 -&gt; 原码 -&gt; 反码</span><br><span class="line"></span><br><span class="line">1  -&gt; 0000 0001 -&gt; 0000 0001</span><br><span class="line">-1 -&gt; 1000 0001 -&gt; 1111 1110</span><br><span class="line"></span><br><span class="line">0?</span><br><span class="line"></span><br><span class="line">+0 -&gt; 0000 0000 -&gt; 0000 0000</span><br><span class="line">-0 -&gt; 1000 0000 -&gt; 1111 1111</span><br></pre></td></tr></table></figure>
 
-    .avatar {
-      position: absolute;
-      top: 0
-      left: 0;
-      width: $avatarWidth;
-      height: $avatarWidth;
-      padding: 1px;
-      box-sizing: border-box;
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
+<h4 id="2-1-3-补码"><a href="#2-1-3-补码" class="headerlink" title="2.1.3 补码"></a>2.1.3 补码</h4><ol>
+<li>正数的补码就是其本身</li>
+<li>负数的补码是其反码 + 1</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">十进制 -&gt; 原码 -&gt; 反码 -&gt; 补码</span><br><span class="line"></span><br><span class="line">1  -&gt; 0000 0001 -&gt; 0000 0001 -&gt; 0000 0001</span><br><span class="line">-1 -&gt; 1000 0001 -&gt; 1111 1110 -&gt; 1111 1111</span><br><span class="line"></span><br><span class="line">0?</span><br><span class="line"></span><br><span class="line">+0 -&gt; 0000 0000 -&gt; 0000 0000 -&gt; 0000 0000</span><br><span class="line">-0 -&gt; 1000 0000 -&gt; 1111 1111 -&gt; 0000 0000</span><br></pre></td></tr></table></figure>
 
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background: var(--avatar-background-color);
-      }
+<blockquote>
+<p> 补码没有正0与负0之分</p>
+</blockquote>
+<h3 id="2-2-练习"><a href="#2-2-练习" class="headerlink" title="2.2 练习"></a>2.2 练习</h3><p>已知一个数字的补码是 11101101 求其十进制数?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">解：</span><br><span class="line"></span><br><span class="line">补码: 1110 1101    (首位是符号位，是 1，说明是负数)</span><br><span class="line">反码: 1110 1100    (补码 -1 是反码)</span><br><span class="line">原码: 1001 0011    (反码除了符号位均取反，是原码)</span><br><span class="line">十进制: -19</span><br></pre></td></tr></table></figure>
 
-    }
+<h2 id="3-位运算符"><a href="#3-位运算符" class="headerlink" title="3. 位运算符"></a>3. 位运算符</h2><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>符号</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a &amp; b</td>
+<td>&amp;</td>
+<td>位与运算，两者皆1则为1</td>
+</tr>
+<tr>
+<td>a | b</td>
+<td>|</td>
+<td>位或运算，有一个1则为1</td>
+</tr>
+<tr>
+<td>a ^ b</td>
+<td>^</td>
+<td>异或运算，不同则为1，否则为0</td>
+</tr>
+<tr>
+<td>~a</td>
+<td>~</td>
+<td>取反运算，0变成1，1变成0</td>
+</tr>
+<tr>
+<td>a &lt;&lt; b</td>
+<td>&lt;&lt;</td>
+<td>左移，将 a 左移 b 位（b&lt;32），右边用 0 填充</td>
+</tr>
+<tr>
+<td>a &gt;&gt; b</td>
+<td>&gt;&gt;</td>
+<td>有符号右移，将 a 右移 b 位（b&lt;32），右边超出的位丢弃，左边部分按照符号位补齐（正数补0，负数补1）</td>
+</tr>
+<tr>
+<td>a &gt;&gt;&gt; b</td>
+<td>&gt;&gt;&gt;</td>
+<td>无符号右移，将 a 右移 b 位（b&lt;32），右边超出的丢弃，左边补0</td>
+</tr>
+</tbody></table>
+<p>做一下练习：</p>
+<blockquote>
+<p>JavaScript 将数字存储为 64 位浮点数，但所有按位运算都以 32 位二进制数执行。</p>
+<p>在执行位运算之前，JavaScript 将数字转换为 32 位有符号整数。</p>
+<p>执行按位操作后，结果将转换回 64 位 JavaScript 数。</p>
+<p>以下操作，为了简化表示，不补齐 32 位。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 &amp; 19</span><br><span class="line">运算：</span><br><span class="line">      0000 1110</span><br><span class="line">      0001 0011</span><br><span class="line">      ---------  &amp;</span><br><span class="line">      0000 0010</span><br><span class="line">结果： 2</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 | 19</span><br><span class="line">运算：</span><br><span class="line">      0000 1110</span><br><span class="line">      0001 0011</span><br><span class="line">      ---------  |</span><br><span class="line">      0001 1111</span><br><span class="line">结果： 31</span><br></pre></td></tr></table></figure>
 
-    .info {
-      padding: 2px 0;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 ^ 19</span><br><span class="line">运算：</span><br><span class="line">      0000 1110</span><br><span class="line">      0001 0011</span><br><span class="line">      ---------  ^</span><br><span class="line">      0001 1101</span><br><span class="line">结果： 29</span><br><span class="line"></span><br><span class="line">负数？</span><br><span class="line"></span><br><span class="line">十进制：-14 ^ 19</span><br><span class="line">运算：</span><br><span class="line">      1000 1110 (原码)</span><br><span class="line">			---------</span><br><span class="line">      1111 0001 (反码)</span><br><span class="line">      ---------  </span><br><span class="line">      1111 0010 (补码)</span><br><span class="line">      0001 0011</span><br><span class="line">      ---------  ^</span><br><span class="line">      1110 0001 (补码)</span><br><span class="line">      ---------</span><br><span class="line">      1110 0000 (反码)</span><br><span class="line">      ---------</span><br><span class="line">      1001 1111 (原码)</span><br><span class="line">结果： -31</span><br></pre></td></tr></table></figure>
 
-      .author {
-        font-weight: 600;
-        font-size: 1.18rem;
-        display: flex;
-        align-items: center;
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">十进制：~ 14</span><br><span class="line">运算：</span><br><span class="line">      0000 1110</span><br><span class="line">      ---------  ~</span><br><span class="line">      1111 0001 (补码)</span><br><span class="line">      ---------</span><br><span class="line">      1111 0000 (反码)</span><br><span class="line">      ---------</span><br><span class="line">      1000 1111 (原码)</span><br><span class="line">结果： -15</span><br><span class="line"></span><br><span class="line">负数？</span><br><span class="line"></span><br><span class="line">十进制：~ -14</span><br><span class="line">运算：</span><br><span class="line">      1000 1110 (原码)</span><br><span class="line">			---------</span><br><span class="line">      1111 0001 (反码)</span><br><span class="line">      ---------  </span><br><span class="line">      1111 0010 (补码)</span><br><span class="line">      ---------  ~</span><br><span class="line">      0000 1101 (原码)</span><br><span class="line">结果： 13</span><br><span class="line"></span><br><span class="line">这里有一个规律：</span><br><span class="line"></span><br><span class="line">~a &#x3D; -(a + 1)</span><br><span class="line"></span><br><span class="line">why ? (因为补码和反码转换的时候，+1 或则会 -1 造成的)</span><br></pre></td></tr></table></figure>
 
-        .name {
-          color: var(--default-text-color);
-        }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 &lt;&lt; 3</span><br><span class="line">运算：</span><br><span class="line">      0000 0000 0000 1110</span><br><span class="line">      ------------------- &lt;&lt; 3</span><br><span class="line">      0000 0000 0111 0000</span><br><span class="line">结果： 112 (相当于 14 * 2 * 2 * 2)</span><br><span class="line"></span><br><span class="line">负数的移动？</span><br><span class="line"></span><br><span class="line">十进制：-14 &lt;&lt; 3</span><br><span class="line">运算：</span><br><span class="line">      1000 0000 0000 1110 (原码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1111 0001 (反码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1111 0010 (补码)</span><br><span class="line">      ------------------- &lt;&lt; 3</span><br><span class="line">      1111 1111 1001 0000 (补码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1000 1111 (反码)</span><br><span class="line">      -------------------</span><br><span class="line">      1000 0000 0111 0000 (原码)</span><br><span class="line">结果： -112</span><br></pre></td></tr></table></figure>
 
-        .author-label {
-          margin-left: 10px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          padding: 0 5px;
-          border-radius: 5px;
-          color: #fff;
-          background: var(--selection-color);
-        }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 &gt;&gt; 3</span><br><span class="line">运算：</span><br><span class="line">      0000 0000 0000 1110</span><br><span class="line">      ------------------- &gt;&gt; 3</span><br><span class="line">      0000 0000 0000 0001</span><br><span class="line">结果： 1 (相当于 14 除了 3 次 2，每次抛弃小数点后的)</span><br><span class="line"></span><br><span class="line">负数的移动？</span><br><span class="line"></span><br><span class="line">十进制：-14 &gt;&gt; 3</span><br><span class="line">运算：</span><br><span class="line">      1000 0000 0000 1110 (原码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1111 0001 (反码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1111 0010 (补码)</span><br><span class="line">      ------------------- &gt;&gt; 3</span><br><span class="line">      1111 1111 1111 1110 (补码)</span><br><span class="line">      -------------------</span><br><span class="line">      1111 1111 1111 1101 (反码)</span><br><span class="line">      -------------------</span><br><span class="line">		  1000 0000 0000 0010 (原码)</span><br><span class="line">      </span><br><span class="line">结果： -2</span><br></pre></td></tr></table></figure>
 
-      }
-    }
-
-  }
-
-
-  .article-header, .article-header-meta-info {
-    margin-top: 16px;
-    +keep-tablet() {
-      transform: scale(0.9);
-      transform-origin: left top;
-    }
-  }
-
-
-  .article-content {
-    margin-top: $component-spacing-value;
-    padding-bottom: 10px;
-    word-wrap: break-word;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--default-text-color);
-  }
-
-  .post-copyright-info {
-    margin-top: $component-spacing-value;
-    width: 100%;
-  }
-
-  .article-nav {
-    height: 40px;
-    margin-top: $component-spacing-value;
-
-    .article-prev, .article-next {
-      max-width: $post-nav-max-width;
-      height: 100%;
-      box-sizing: border-box;
-
-      keep-container(true, 1.03, 1.03, 10px, 0);
-
-      a {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-
-        &.prev {
-          padding-left: $arrow-icon-width;
-        }
-
-        &.next {
-          padding-right: $arrow-icon-width;
-        }
-
-        .arrow-icon {
-          position: absolute;
-          top: 0;
-          height: 100%;
-          width: $arrow-icon-width;
-
-          &.left {
-            left: 0;
-          }
-
-          &.right {
-            right: 0;
-          }
-        }
-
-        .title {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-    }
-
-    .article-prev {
-      float: left;
-    }
-
-    .article-next {
-      float: right;
-    }
-
-    .post-nav-item {
-      display: none;
-
-      +keep-tablet() {
-        display: inline-block;
-      }
-
-    }
-
-
-    .post-nav-title-item {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      +keep-tablet() {
-        display: none;
-      }
-    }
-
-  }
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">十进制：14 &gt;&gt;&gt; 3</span><br><span class="line">运算：</span><br><span class="line">      0000 0000 0000 1110</span><br><span class="line">      ------------------- &gt;&gt; 3</span><br><span class="line">      0000 0000 0000 0001</span><br><span class="line">结果： 1 (正数和有符号右移 &gt;&gt; 没有区别)</span><br><span class="line"></span><br><span class="line">负数的移动？</span><br><span class="line"></span><br><span class="line">十进制：-14 &gt;&gt; 3</span><br><span class="line">运算：</span><br><span class="line">      10000000 00000000 00000000 00001110 (原码)</span><br><span class="line">      ---------------------------------------</span><br><span class="line">      11111111 11111111 11111111 11110001 (反码)</span><br><span class="line">      ---------------------------------------</span><br><span class="line">      11111111 11111111 11111111 11110010 (补码)</span><br><span class="line">      --------------------------------------- &gt;&gt; 3</span><br><span class="line">      00011111 11111111 11111111 11111110 (原码)</span><br><span class="line">      </span><br><span class="line">结果： 536870910</span><br><span class="line"></span><br><span class="line">因为这里设计到二进制最左边，所以以全貌 32 位来展示。</span><br></pre></td></tr></table></figure>
 
 
-}
 
+<h2 id="4-实际应用"><a href="#4-实际应用" class="headerlink" title="4. 实际应用"></a>4. 实际应用</h2><h3 id="4-1-颜色-RGB-和-十六进制-的互相转换"><a href="#4-1-颜色-RGB-和-十六进制-的互相转换" class="headerlink" title="4.1 颜色 RGB 和 十六进制 的互相转换"></a>4.1 颜色 RGB 和 十六进制 的互相转换</h3><p>我们注意到，rgb 的每一位数的范围都是 0 ～ 255。相当于  0 ～ 2^8 - 1，转换成二进制，刚好可以用8位表示完整。00000000 ～ 11111111，用 16 进制就是 00 ～ ff。</p>
+<h4 id="4-1-1-RGB-gt-16进制"><a href="#4-1-1-RGB-gt-16进制" class="headerlink" title="4.1.1 RGB -&gt; 16进制"></a>4.1.1 RGB -&gt; 16进制</h4><p>给定一个用 RGB 格式表示的颜色 rgb(213, 87, 70)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">首先，拆分一下，拿出来三个数字</span><br><span class="line"></span><br><span class="line">213</span><br><span class="line">87</span><br><span class="line">70</span><br><span class="line"></span><br><span class="line">然后，转化成二进制</span><br><span class="line"></span><br><span class="line">213 -&gt; 00000000 00000000 00000000 11010101</span><br><span class="line">87  -&gt; 00000000 00000000 00000000 01010111</span><br><span class="line">70  -&gt; 00000000 00000000 00000000 01000110</span><br><span class="line"></span><br><span class="line">我们如果想把这三个数变成一个数，直接转换为 16 进制。需要怎么操作呢？（位移）</span><br><span class="line"></span><br><span class="line">213 -&gt; 00000000 00000000 00000000 11010101</span><br><span class="line">87  -&gt; 00000000 00000000 00000000 01010111</span><br><span class="line">70  -&gt; 00000000 00000000 00000000 01000110</span><br><span class="line"></span><br><span class="line">213(?) -&gt; 00000000 11010101 00000000 00000000</span><br><span class="line">87(?)  -&gt; 00000000 00000000 01010111 00000000</span><br><span class="line">70(?)  -&gt; 00000000 00000000 00000000 01000110</span><br><span class="line"></span><br><span class="line">然后呢？这咋还是三个数，说好的一个呢？别急 （位或运算）</span><br><span class="line"></span><br><span class="line">213(?) -&gt; 00000000 11010101 00000000 00000000</span><br><span class="line">87(?)  -&gt; 00000000 00000000 01010111 00000000</span><br><span class="line">70(?)  -&gt; 00000000 00000000 00000000 01000110</span><br><span class="line">					----------------------------------- |</span><br><span class="line">??        00000000 11010101 01010111 01000110</span><br><span class="line">                         d5       57       46</span><br><span class="line">                         							#d55746</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>把上面的过程转化成代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rgbColor = <span class="string">&#x27;rgb(213, 87, 70)&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rgbToHex</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = str.match(<span class="regexp">/^rgb\((\d&#123;1,3&#125;),\s?(\d&#123;1,3&#125;),\s?(\d&#123;1,3&#125;)\)$/</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!res) <span class="keyword">return</span> <span class="string">&#x27;invalid&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> [ , red, green, blue] = res;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;#&#x27;</span> + (red &lt;&lt; <span class="number">16</span> | green &lt;&lt; <span class="number">8</span> | blue).toString(<span class="number">16</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(rgbToHex(rgbColor));  <span class="comment">// #d55746</span></span><br></pre></td></tr></table></figure>
+
+<p>反过来就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">拿到一个 16 进制颜色： #d55746；</span><br><span class="line"></span><br><span class="line">先转换成 2 进制</span><br><span class="line">#d55746 -&gt; 00000000 11010101 01010111 01000110</span><br><span class="line"></span><br><span class="line">接下来怎么分解成三个数呢？</span><br><span class="line"></span><br><span class="line">我们一个一个取，先取得 red</span><br><span class="line"></span><br><span class="line">#d55746 -&gt; 00000000 11010101 01010111 01000110</span><br><span class="line">           ----------------------------------- &gt;&gt; 16</span><br><span class="line">           00000000 00000000 00000000 11010101</span><br><span class="line">           														    0xd5 -&gt; 213</span><br><span class="line">           </span><br><span class="line">挪动之后就只剩下了我们想要的值，下一个</span><br><span class="line"></span><br><span class="line">#d55746 -&gt; 00000000 11010101 01010111 01000110</span><br><span class="line">           ----------------------------------- &gt;&gt; 8</span><br><span class="line">           00000000 00000000 11010101 01010111</span><br><span class="line">           </span><br><span class="line">这下犯了难，不是我们想要的，那咋办呢，只想要后面部分的。（与运算）</span><br><span class="line">           00000000 00000000 11010101 01010111</span><br><span class="line">           00000000 00000000 00000000 11111111</span><br><span class="line">           ----------------------------------- &amp;</span><br><span class="line">           00000000 00000000 00000000 01010111</span><br><span class="line">                                          0x57 -&gt; 87</span><br><span class="line">           </span><br><span class="line">同理，拿到最后一个</span><br><span class="line">           00000000 11010101 01010111 01000110</span><br><span class="line">           00000000 00000000 00000000 11111111</span><br><span class="line">           ----------------------------------- &amp;</span><br><span class="line">           00000000 00000000 00000000 01000110</span><br><span class="line">                                          0x46 -&gt; 70</span><br><span class="line">                         							</span><br></pre></td></tr></table></figure>
+
+<p>同代码表示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> hexColor = <span class="string">&#x27;#254&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hexToRgb</span>(<span class="params">str</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = str.match(<span class="regexp">/^#([0-9a-f]&#123;3&#125;|[0-9a-f]&#123;6&#125;)$/</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!res) <span class="keyword">return</span> <span class="string">&#x27;invalid&#x27;</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> hex = res[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(<span class="built_in">String</span>(hex).length == <span class="number">3</span>) &#123;</span><br><span class="line">    hex = <span class="built_in">String</span>(hex).split(<span class="string">&#x27;&#x27;</span>).map(<span class="function"><span class="params">char</span> =&gt;</span> <span class="string">`<span class="subst">$&#123;char&#125;</span><span class="subst">$&#123;char&#125;</span>`</span>).join(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  hex = <span class="built_in">Number</span>(<span class="string">&#x27;0x&#x27;</span> + hex)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="string">`rgb(<span class="subst">$&#123;hex &gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>&#125;</span>, <span class="subst">$&#123;hex &gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>&#125;</span>, <span class="subst">$&#123;hex &amp; <span class="number">0xff</span>&#125;</span>)`</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(hexToRgb(hexColor));  <span class="comment">// rgb(34, 85, 68)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-2-存储"><a href="#4-2-存储" class="headerlink" title="4.2 存储"></a>4.2 存储</h3><p>一个用户对应多个标签的问题。比如有100个标签，每个用户都可能有其中的任意个。这个用户和标签的对应关系怎么存储？假如往数据库里存？</p>
+<p>逗号分隔？不优雅！（虽然我们很多代码都是这样做的！）</p>
+<p>这种情况，按位存储是比较理想的方案，怎么做呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagList = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> userTags = [<span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;e&#x27;</span>];</span><br></pre></td></tr></table></figure>
+
+<p>我们先假设给每个标签一个标记值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a -&gt;  1 -&gt; 00000001</span><br><span class="line">b -&gt;  2 -&gt; 00000010</span><br><span class="line">c -&gt;  4 -&gt; 00000100</span><br><span class="line">d -&gt;  8 -&gt; 00001000</span><br><span class="line">e -&gt; 16 -&gt; 00010000</span><br><span class="line"></span><br><span class="line">怎么存储呢？看起来没个标签对应一个二进制位，1 代表有这个标签，0 代表没有，所以我们吧他们集合起来不就可以了</span><br><span class="line"></span><br><span class="line">b -&gt;  2 -&gt; 00000010</span><br><span class="line">e -&gt; 16 -&gt; 00010000</span><br><span class="line">           -------- |</span><br><span class="line">           00010010 -&gt; 18 &#x3D; 16 + 2</span><br></pre></td></tr></table></figure>
+
+<p>转化成代码，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagList = [<span class="string">&#x27;aa&#x27;</span>, <span class="string">&#x27;bb&#x27;</span>, <span class="string">&#x27;cc&#x27;</span>, <span class="string">&#x27;dd&#x27;</span>, <span class="string">&#x27;ee&#x27;</span>, <span class="string">&#x27;ff&#x27;</span>, <span class="string">&#x27;gg&#x27;</span>, <span class="string">&#x27;hh&#x27;</span>, <span class="string">&#x27;ii&#x27;</span>, <span class="string">&#x27;jj&#x27;</span>, <span class="string">&#x27;kk&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> inputTags = [<span class="string">&#x27;bb&#x27;</span>, <span class="string">&#x27;ii&#x27;</span>, <span class="string">&#x27;kk&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> saveTags = <span class="function"><span class="params">tags</span> =&gt;</span> tags.reduce(<span class="function">(<span class="params">total, item</span>) =&gt;</span> total | (<span class="number">1</span> &lt;&lt; tagList.indexOf(item)), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> encodeRes = saveTags(inputTags);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(encodeRes);   <span class="comment">// 1282</span></span><br></pre></td></tr></table></figure>
+
+<p>现在存起来了，那取出来怎么再对应回去呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> tagList = [<span class="string">&#x27;aa&#x27;</span>, <span class="string">&#x27;bb&#x27;</span>, <span class="string">&#x27;cc&#x27;</span>, <span class="string">&#x27;dd&#x27;</span>, <span class="string">&#x27;ee&#x27;</span>, <span class="string">&#x27;ff&#x27;</span>, <span class="string">&#x27;gg&#x27;</span>, <span class="string">&#x27;hh&#x27;</span>, <span class="string">&#x27;ii&#x27;</span>, <span class="string">&#x27;jj&#x27;</span>, <span class="string">&#x27;kk&#x27;</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> inputTags = [<span class="string">&#x27;bb&#x27;</span>, <span class="string">&#x27;ii&#x27;</span>, <span class="string">&#x27;kk&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> saveTags = <span class="function"><span class="params">tags</span> =&gt;</span> tags.reduce(<span class="function">(<span class="params">total, item</span>) =&gt;</span> total | (<span class="number">1</span> &lt;&lt; tagList.indexOf(item)), <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> encodeRes = saveTags(inputTags);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(encodeRes);   <span class="comment">// 1282 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getTags = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> index = <span class="number">0</span>, res = [];</span><br><span class="line">  <span class="keyword">while</span>(num &amp;&amp; index &lt; tagList.length) &#123;</span><br><span class="line">    <span class="keyword">if</span>(num &amp; <span class="number">1</span>) &#123;</span><br><span class="line">      res.push(tagList[index]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    num = num &gt;&gt; <span class="number">1</span>;</span><br><span class="line">    index++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> decodeRes = getTags(encodeRes);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(decodeRes);   <span class="comment">// [ &#x27;bb&#x27;, &#x27;ii&#x27;, &#x27;kk&#x27; ]</span></span><br></pre></td></tr></table></figure>
+
+<p>用上面的例子，做个演示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">a -&gt;  1 -&gt; 00000001</span><br><span class="line">b -&gt;  2 -&gt; 00000010</span><br><span class="line">c -&gt;  4 -&gt; 00000100</span><br><span class="line">d -&gt;  8 -&gt; 00001000</span><br><span class="line">e -&gt; 16 -&gt; 00010000</span><br><span class="line"></span><br><span class="line">我们有 18，</span><br><span class="line"></span><br><span class="line">18 -&gt; 0001 0010</span><br><span class="line">      </span><br><span class="line">index &#x3D; 0    0001 0010      &amp;1 &#x3D; 0   (说明没有 a)    []</span><br><span class="line">             --------- &gt;&gt; 1</span><br><span class="line">index &#x3D; 1    0000 1001      &amp;1 &#x3D; 1   (说明有 b)     [b]</span><br><span class="line">             --------- &gt;&gt; 1</span><br><span class="line">index &#x3D; 2    0000 0100      &amp;1 &#x3D; 0   (说明没有 c)   [b]</span><br><span class="line">             --------- &gt;&gt; 1</span><br><span class="line">index &#x3D; 3    0000 0010      &amp;1 &#x3D; 0   (说明没有 d)   [b]</span><br><span class="line">             --------- &gt;&gt; 1</span><br><span class="line">index &#x3D; 4    0000 0001      &amp;1 &#x3D; 1   (说明有 e)     [b, e]</span><br><span class="line">             --------- &gt;&gt; 1</span><br><span class="line">             0000 0000</span><br><span class="line">                 (end)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="5-奇技淫巧"><a href="#5-奇技淫巧" class="headerlink" title="5. 奇技淫巧"></a>5. 奇技淫巧</h2><blockquote>
+<p>找了几个 leetcode 上的算法题</p>
+</blockquote>
+<h3 id="5-1-给定一个（正）整数，判断它是否是-2-的幂次方。"><a href="#5-1-给定一个（正）整数，判断它是否是-2-的幂次方。" class="headerlink" title="5.1 给定一个（正）整数，判断它是否是 2 的幂次方。"></a>5.1 给定一个（正）整数，判断它是否是 2 的幂次方。</h3><p>解题思路？</p>
+<p>一直除 2 看是否可以等于 1？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> res = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">while</span>(num &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span>(num % <span class="number">1</span> !== <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(num === <span class="number">1</span>) &#123;</span><br><span class="line">      res = <span class="literal">true</span>;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    num /= <span class="number">2</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">134</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>可以实现功能，但是bigger不高啊！试一试用位运算来实现。我们可以先看看这些数都有哪些特点。</p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>4</th>
+<th>8</th>
+<th>16</th>
+<th>32</th>
+<th>…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>10</td>
+<td>100</td>
+<td>1000</td>
+<td>10000</td>
+<td>100000</td>
+<td>…</td>
+</tr>
+</tbody></table>
+<p>用二进制表示，只有第一位是1其余全是0。所以我们可以用这个特征来进行判断。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="regexp">/^1(0)*$/</span>.test(num.toString(<span class="number">2</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">134</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>有没有更好的办法？更优雅？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> !(num &amp; num - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">134</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>原理？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">128       -&gt; 1000 0000</span><br><span class="line">(128 - 1) -&gt; 0111 1111</span><br><span class="line">             --------- &amp;</span><br><span class="line">						 0000 0000 -&gt; 0</span><br><span class="line">						 </span><br><span class="line">134       -&gt; 1000 0110</span><br><span class="line">(134 - 1) -&gt; 1000 0101</span><br><span class="line">             --------- &amp;</span><br><span class="line">             1000 0100 -&gt; 132</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-2-进阶！判断一个正整数是否是-4-的幂次方"><a href="#5-2-进阶！判断一个正整数是否是-4-的幂次方" class="headerlink" title="5.2 进阶！判断一个正整数是否是 4 的幂次方"></a>5.2 进阶！判断一个正整数是否是 4 的幂次方</h3><p>首先，满足是 4 的幂次方的数，一定也是 2 的幂次方数。如 上一题的表格所示。除此之外，他们也有自己的特征</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1  -&gt; 00000001</span><br><span class="line">4  -&gt; 00000100</span><br><span class="line">16 -&gt; 00010000</span><br><span class="line">64 -&gt; 01000000</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，他的 1 是间隔出现的，从后往前数，都在奇数位置。</p>
+<p>所以根据这个特征，可以在满足是 2 进制数的基础上，做一次判断，就可以达到我们想要的效果。但是怎么做呢？</p>
+<p>可以扩展一下我们上面的正则方法，因为规律是 1 后面有 0 个或者偶数个0，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> res = num.toString(<span class="number">2</span>)</span><br><span class="line">  <span class="keyword">return</span> <span class="regexp">/^1(00)*$/</span>.test(res)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">64</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>同样不够优雅，用位运算的方法是这样写</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(num &amp; num - <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (num &amp; <span class="number">0x55555555</span>) === num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">64</span>));  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>0x55555555 是个什么玩意？？（黑人问号脸）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0x55555555 -&gt; 01010101 01010101 01010101 01010101</span><br></pre></td></tr></table></figure>
+
+<p>转换成二进制，是一个 0 和 1 间隔的，奇数为是 1 的串。为什么是这么个玩意呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">0x55555555 -&gt; 01010101 01010101 01010101 01010101</span><br><span class="line">256        -&gt; 00000000 00000000 00000001 00000000</span><br><span class="line">              ----------------------------------- &amp;</span><br><span class="line">              00000000 00000000 00000001 00000000 -&gt; 256</span><br><span class="line">              </span><br><span class="line">0x55555555 -&gt; 01010101 01010101 01010101 01010101</span><br><span class="line">128        -&gt; 00000000 00000000 00000000 10000000</span><br><span class="line">              ----------------------------------- &amp;</span><br><span class="line">              00000000 00000000 00000000 00000000 -&gt; 0</span><br><span class="line">              </span><br></pre></td></tr></table></figure>
+
+<p>那，有没有什么其他的方法呢？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="regexp">/^1(0)*$/</span>.test(num.toString(<span class="number">4</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">256</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>)); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">134</span>)); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>我们把这个数转化成 4 进制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">十进制 -&gt; 四进制</span><br><span class="line"></span><br><span class="line">256 -&gt; 0001 0000</span><br><span class="line">128 -&gt; 0000 2000</span><br><span class="line">137 -&gt; 0000 2021</span><br></pre></td></tr></table></figure>
+
+<p>也是，满足 4 的幂次方数的，转化成 4 进制，同样是 1 开头，后面全是 0 （或者没有 0）。</p>
+<p>所以扩展一下，一个 x 的幂次方，转化成 x 进制。都是 1 开头后面全是 0 （或者没有 0）。</p>
+<p>扩展一下方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* params</span></span><br><span class="line"><span class="comment">* num 要验证的数</span></span><br><span class="line"><span class="comment">* a 要满足的幂次方</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFun</span>(<span class="params">num, a</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="regexp">/^1(0)*$/</span>.test(num.toString(a))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">128</span>, <span class="number">2</span>));  <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">81</span>, <span class="number">9</span>));   <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(isFun(<span class="number">169</span>, <span class="number">13</span>)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2021/04/%E5%BD%93GET%E8%AF%B7%E6%B1%82%E9%81%87%E5%88%B0%E6%95%B0%E7%BB%84/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">当GET请求遇到数组</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2020/12/%E4%B8%80%E4%B8%AA%E5%89%8D%E7%AB%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E6%AD%A3%E5%88%99%E4%BF%AE%E5%85%BB/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">一个前端的基础正则修养</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div class="valine-container">
+        <script data-pjax
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script data-pjax>
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
+                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '',
+                    lang: 'en'.toLowerCase()
+                });
+
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
+
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'sansiro';
+
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
+
+            if ('true') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
 
 
                 

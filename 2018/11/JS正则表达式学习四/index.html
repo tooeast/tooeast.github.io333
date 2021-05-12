@@ -148,195 +148,228 @@
             <div class="main-content">
 
                 
-                    $avatarWidth = 46px;
-$arrow-icon-width = 16px;
-$post-nav-max-width = 220px;
-$article-title-font-size = 1.6rem;
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
 
-.article-content-container {
+        <div class="article-title">
+            <span class="title-hover-animation">JS正则表达式学习四</span>
+        </div>
 
-  keep-container(false, 0, 0, 30px, 30px);
+        
+            <div class="article-header">
+                <!-- <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div> -->
+                <div class="info">
+                    <!-- <div class="author">
+                        <span class="name">sansiro</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div> -->
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2018-11-26 16:45:11
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
 
-  .article-title {
-    color: var(--second-text-color);
-    font-weight: 600;
-    font-size: $article-title-font-size;
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>860 Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>2 Mins</span>
+        </span>
+    
+    
+</div>
 
-    +keep-tablet() {
-      font-size: $article-title-font-size * 0.9;
-    }
+                    </div>
+                </div>
+            </div>
+        
 
-    +keep-mobile() {
-      font-size: $article-title-font-size * 0.8;
-    }
-  }
+        <div class="article-content markdown-body">
+            <p>惯例，先上<a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/5965943ff265da6c30653879" >原文<i class="fas fa-external-link-alt"></i></a>。</p>
+<blockquote>
+<p>之前我们学习了正则的字符匹配、位置匹配和括号的使用。接下来我们学习正则表达式中常见的一个问题：回溯问题。如果说前面是学习正则的使用，那么本节感觉是学习正则的优化。我觉得回溯其实是一种性能的浪费，所以学习写好的正则可以减少回溯的产生，提高效率。</p>
+</blockquote>
+<p>回溯，顾名思义就是回复过去状态，可以理解为回退。老姚文章中说这是匹配原理中的一个名词，但其实实际使用很少有人会关心这个问题，甚至都没有听过这种说法。所以接下来我们学习高大上的回溯问题。</p>
+<h4 id="1-回溯的理解"><a href="#1-回溯的理解" class="headerlink" title="1. 回溯的理解"></a>1. 回溯的理解</h4><blockquote>
+<p>正则表达式匹配字符串的这种方式，有个学名，叫回溯法。<br>回溯法也称试探法，它的基本思想是：从问题的某一种状态（初始状态）出发，搜索从这种状态出发所能达到的所有“状态”，当一条路走到“尽头”的时候（不能再前进），再后退一步或若干步，从另一种可能“状态”出发，继续搜索，直到所有的“路径”（状态）都试探过。这种不断“前进”、不断“回溯”寻找解的方法，就称作“回溯法”。（copy于百度百科）。<br>本质上就是深度优先搜索算法。其中退到之前的某一步这一过程，我们称为“回溯”。从上面的描述过程中，可以看出，路走不通时，就会发生“回溯”。即，尝试匹配失败时，接下来的一步通常就是回溯。</p>
+</blockquote>
+<p>以上是原文中的解释，组织不了更好的语言索性直接贴过来了。</p>
+<h4 id="2-回溯的例子"><a href="#2-回溯的例子" class="headerlink" title="2. 回溯的例子"></a>2. 回溯的例子</h4><p>为了精简的总结，直接再贴个原文中的图过来。图表示的是用正则 <code> /ab&#123;1,3&#125;bbc/</code> 匹配字符串 <code>abbbc</code> 的过程：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/image/regexp-huisu.jpg"
+                      alt="图片"
+                ></p>
+<p>从图上可以很清晰的看出来是因为贪婪量词 <code>b&#123;1,3&#125;</code> 的原因导致的回溯。但其实不只是贪婪量词可以导致回溯，不贪婪的惰性量词也会导致回溯，如下是使用 <code>/^\d&#123;1,3&#125;?\d&#123;1,3&#125;$/</code> 匹配 <code>12345</code>  的过程：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/image/regexp-3.jpg"
+                      alt="图片"
+                ></p>
+<p>可以看到因为惰性量词一开始就很“满足”了，所以导致整体的匹配必须重来，所以哪怕是满足了也必须多拿点，这样为了整体才能成功！</p>
+<p>除了这两种情况，分支结构也可以导致回溯的发生，以下是使用 <code>/can|candy/</code> 匹配字符串 <code>candy</code> 的过程：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="/image/regexp-2.jpg"
+                      alt="图片"
+                ></p>
+<p>可以看到由于先满足了 <code>can</code> 所以就尝试着匹配之后的内容，但整体进行不下去了，所以必须回溯去匹配 <code>candy</code> 才能满足条件。</p>
+<blockquote>
+<p>JS的正则引擎是NFA，NFA是“非确定型有限自动机”的简写。大部分语言中的正则都是NFA，除此之外还有DFA引擎。（知识点，哈哈，单列）。</p>
+</blockquote>
+<p>至此，学习正则表达式的过程就告一段落了，其实老姚的文章后面还有内容，但是作为学习笔记总结，我觉得到这里就ok了，后面的内容有兴趣的童鞋可以去老姚的原文看哦  <a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/5965943ff265da6c30653879" >https://juejin.im/post/5965943ff265da6c30653879<i class="fas fa-external-link-alt"></i></a></p>
 
+        </div>
 
-  .article-header {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+        
 
-    .avatar {
-      position: absolute;
-      top: 0
-      left: 0;
-      width: $avatarWidth;
-      height: $avatarWidth;
-      padding: 1px;
-      box-sizing: border-box;
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2018/12/2018%E5%86%8D%E8%A7%81%EF%BC%8C2019%E4%BD%A0%E5%A5%BD/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">2018再见，2019你好</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2018/11/JS%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E4%B8%89/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JS正则表达式学习三</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
 
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background: var(--avatar-background-color);
-      }
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
 
-    }
+        
+            
+    <div class="valine-container">
+        <script data-pjax
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script data-pjax>
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
+                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '',
+                    lang: 'en'.toLowerCase()
+                });
 
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
 
-    .info {
-      padding: 2px 0;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 100%;
-      height: 100%;
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'sansiro';
 
-      .author {
-        font-weight: 600;
-        font-size: 1.18rem;
-        display: flex;
-        align-items: center;
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
 
-        .name {
-          color: var(--default-text-color);
-        }
-
-        .author-label {
-          margin-left: 10px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          padding: 0 5px;
-          border-radius: 5px;
-          color: #fff;
-          background: var(--selection-color);
-        }
-
-      }
-    }
-
-  }
-
-
-  .article-header, .article-header-meta-info {
-    margin-top: 16px;
-    +keep-tablet() {
-      transform: scale(0.9);
-      transform-origin: left top;
-    }
-  }
-
-
-  .article-content {
-    margin-top: $component-spacing-value;
-    padding-bottom: 10px;
-    word-wrap: break-word;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--default-text-color);
-  }
-
-  .post-copyright-info {
-    margin-top: $component-spacing-value;
-    width: 100%;
-  }
-
-  .article-nav {
-    height: 40px;
-    margin-top: $component-spacing-value;
-
-    .article-prev, .article-next {
-      max-width: $post-nav-max-width;
-      height: 100%;
-      box-sizing: border-box;
-
-      keep-container(true, 1.03, 1.03, 10px, 0);
-
-      a {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        box-sizing: border-box;
-
-        &.prev {
-          padding-left: $arrow-icon-width;
-        }
-
-        &.next {
-          padding-right: $arrow-icon-width;
-        }
-
-        .arrow-icon {
-          position: absolute;
-          top: 0;
-          height: 100%;
-          width: $arrow-icon-width;
-
-          &.left {
-            left: 0;
-          }
-
-          &.right {
-            right: 0;
-          }
-        }
-
-        .title {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-    }
-
-    .article-prev {
-      float: left;
-    }
-
-    .article-next {
-      float: right;
-    }
-
-    .post-nav-item {
-      display: none;
-
-      +keep-tablet() {
-        display: inline-block;
-      }
-
-    }
-
-
-    .post-nav-title-item {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-
-      +keep-tablet() {
-        display: none;
-      }
-    }
-
-  }
+            if ('true') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
 
 
-}
 
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
 
 
                 
