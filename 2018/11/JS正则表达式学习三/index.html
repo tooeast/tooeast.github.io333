@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="sansiro">
+    
+    <title>
+        
+            JS正则表达式学习三 |
+        
+        小院东边
+    </title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"www.liuzedong.xyz","root":"/","language":"en","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/favicon.ico","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":true,"scale":false},"first_screen":{"enable":true,"background_img":"https://521plus.oss-cn-beijing.aliyuncs.com/record/new-bg-two.jpg","description":"生命不息，折腾不止"},"scroll":{"progress_bar":{"enable":true},"percent":{"enable":true}}},"local_search":{"enable":true,"preload":false},"code_copy":{"enable":false,"style":"mac"},"pjax":{"enable":true},"lazyload":{"enable":true},"version":"3.4.1"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            <a class="logo-title" href="/">
+                小院东边
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                首页
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                列表
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                标签
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                关于
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">首页</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">列表</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags">标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">JS正则表达式学习三</span>
+        </div>
+
+        
+            <div class="article-header">
+                <!-- <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div> -->
+                <div class="info">
+                    <!-- <div class="author">
+                        <span class="name">sansiro</span>
+                        
+                            <span class="author-label">Lv2</span>
+                        
+                    </div> -->
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2018-11-26 16:45:11
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fas fa-file-word"></i>&nbsp;<span>1.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fas fa-clock"></i>&nbsp;<span>5 Mins</span>
+        </span>
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p>继续上文，先贴原文<a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/5965943ff265da6c30653879" >地址<i class="fas fa-external-link-alt"></i></a>。</p>
+<blockquote>
+<p>之前的部分学习了字符匹配和位置匹配，可以说涵盖了很多日常开发中会用到的知识点。接下来要学习的是我觉得正则中很神奇的一部分，那就是括号的使用</p>
+</blockquote>
+<p>就像文章中说的，对括号的使用是否得心应手，是衡量对正则的掌握水平的侧面标准。确实是，再正则中使用括号会有很好的效果，能起到很好的功能作用。</p>
+<p>常用的是它的分组功能，顾名思义就是将一组内容作为一个整体。比如 <code>/(ab)+/g</code> 就表示 <code>ab</code> 这个整体连续出现。如果不写括号会被认为是 b 的连续出现。除此之外还有分支功能，如 <code>(x|y)</code> 表示既可能是 x ，也可能是 y。这些都是比较常见的用法，接下来学习比较少见到，但是却能高效解决问题的用法。</p>
+<h4 id="1-引用分组"><a href="#1-引用分组" class="headerlink" title="1. 引用分组"></a>1. 引用分组</h4><p>这是很重要的一个功能，常常用来作为数据的提取以及替换的操作，将需要操作的部分用括号括起来之后，就可以提取或者替换。</p>
+<p>比如常见的日期提取，这里贴上原文中的一段代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span>;</span><br><span class="line"><span class="keyword">var</span> string = <span class="string">&quot;2017-06-12&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( string.match(regex) ); </span><br><span class="line"><span class="comment">// =&gt; [&quot;2017-06-12&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;12&quot;, index: 0, input: &quot;2017-06-12&quot;]</span></span><br></pre></td></tr></table></figure>
+<p>可以看到，使用 <code>match()</code> 方法可以将正则需要提取的内容拿出来。也可以使用 <code>exec()</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span>;</span><br><span class="line"><span class="keyword">var</span> string = <span class="string">&quot;2017-06-12&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( regex.exec(string) ); </span><br><span class="line"><span class="comment">// =&gt; [&quot;2017-06-12&quot;, &quot;2017&quot;, &quot;06&quot;, &quot;12&quot;, index: 0, input: &quot;2017-06-12&quot;]</span></span><br></pre></td></tr></table></figure>
+
+<p>除此之外还可以使用 <code>$1</code>  到<code>$9</code> 来获取，这是我觉得这块内容最有用的地方，接下来就会用到。</p>
+<p>除了匹配之外，替换才是更常用的，比如我们常见的日期替换，要把 <code>2018-10-11</code> 换成 <code>2018/10/11</code>。很多时候我们都是把 <code>-</code> 直接替换成 <code>/</code> ，但是如果要换成 <code>10/11/2018</code> 的时候，就不能在用这个办法，所以接下来的才是更好的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)/</span>;</span><br><span class="line"><span class="keyword">var</span> string = <span class="string">&quot;2018-10-11&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> result = string.replace(regex, <span class="string">&quot;$2/$3/$1&quot;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(result); </span><br><span class="line"><span class="comment">// =&gt; &quot;10/11/2018&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到从左到右三个括号依次包括的是 年、月、日 。然后通过 <code>$1</code>、<code>$2</code>、<code>$3</code> 分别指代，然后我们可以排列成我们想要的形式了。</p>
+<h4 id="2-反向引用"><a href="#2-反向引用" class="headerlink" title="2. 反向引用"></a>2. 反向引用</h4><p>这在业务代码中几乎没有见到过，之前也完全没听说过正则还可以这样用，大开眼界！</p>
+<p>反向引用指的是可以在正则本身里面引用之前的分组，即前面出现了某个字符，后面可以通过反向引用来拿到这个字符，然后进行想要的操作。这里继续贴上原文中的代码例子（自己想不出例子来，😓）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/\d&#123;4&#125;(-|\/|\.)\d&#123;2&#125;(-|\/|\.)\d&#123;2&#125;/</span>;</span><br><span class="line"><span class="keyword">var</span> string1 = <span class="string">&quot;2017-06-12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string2 = <span class="string">&quot;2017/06/12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string3 = <span class="string">&quot;2017.06.12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string4 = <span class="string">&quot;2016-06/12&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string1) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string2) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string3) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string4) ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>如上所示，想要匹配 <code>2016-06-12</code>、<code>2017/06/12</code>、<code>2017.06.12</code> 这三种形式的日期，我们可能会写出示例中的代码，可以看到确实是可以匹配的，但是最后一种情况 <code>2016-06/12</code> 也会被匹配。因为没法对前后出现的内容做同步，前面使用的是 <code>-</code> ，但是没办法保证后面使用的同样也是 <code>-</code>。反向引用可以解决这个问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/\d&#123;4&#125;(-|\/|\.)\d&#123;2&#125;\1\d&#123;2&#125;/</span>;</span><br><span class="line"><span class="keyword">var</span> string1 = <span class="string">&quot;2017-06-12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string2 = <span class="string">&quot;2017/06/12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string3 = <span class="string">&quot;2017.06.12&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> string4 = <span class="string">&quot;2016-06/12&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string1) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string2) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string3) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string4) ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>可以看到，使用了 <code>\1</code> 来引用之前括号中的内容，这样就会使得前后是一致的，所以 <code>2016-06/12</code>  这种情况是不能够通过的。</p>
+<p>有了 <code>\1</code> ，那么相应的 <code>\2 \3 \4</code> 也就很好理解了，但是这种情况下会出现括号嵌套的情况，这种情况下以左括号出现的先后顺序为准，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/^((\d)(\d(\d)))\1\2\3\4$/</span>;</span><br><span class="line"><span class="keyword">var</span> string = <span class="string">&quot;1231231233&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( regex.test(string) ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">RegExp</span>.$1 ); <span class="comment">// 123</span></span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">RegExp</span>.$2 ); <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">RegExp</span>.$3 ); <span class="comment">// 23</span></span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">RegExp</span>.$4 ); <span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<p>如果引用的分组不存在，那么 <code>\1</code> 就是简单的对字符 <code>1</code> 做了转义。</p>
+<h4 id="3-非捕获分组"><a href="#3-非捕获分组" class="headerlink" title="3. 非捕获分组"></a>3. 非捕获分组</h4><p>之前的使用都是使用括号来匹配数据，但是如果不想要这些功能，只想安安静静的做一个普通的括号呢，也有办法。可以使用非捕获分组 <code> (?:p)</code> 。这样就不会被引用了！</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2018/12/2018%E5%86%8D%E8%A7%81%EF%BC%8C2019%E4%BD%A0%E5%A5%BD/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">2018再见，2019你好</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2018/11/JS%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E5%9B%9B/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JS正则表达式学习四</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div class="valine-container">
+        <script data-pjax
+                src="//cdn.jsdelivr.net/npm/valine@latest/dist/Valine.min.js"></script>
+        <div id="vcomments"></div>
+        <script data-pjax>
+            function loadValine() {
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'O0h5zBrPQOF3mqdkCnCvykOo-gzGzoHsz',
+                    appKey: 'zL0tQ6MlyiRSMnRLffqX4Mc0',
+                    meta: ['nick', 'mail', 'link'],
+                    avatar: 'wavatar',
+                    enableQQ: true,
+                    placeholder: '',
+                    lang: 'en'.toLowerCase()
+                });
+
+                function getAuthor(language) {
+                    switch (language) {
+                        case 'en':
+                            return 'Author';
+                        case 'zh-CN':
+                            return '博主';
+                        default:
+                            return 'Master';
+                    }
+                }
+
+                // Add "Author" identify
+                const getValineDomTimer = setInterval(() => {
+                    const vcards = document.querySelectorAll('#vcomments .vcards .vcard');
+                    if (vcards.length > 0) {
+                        let author = 'sansiro';
+
+                        if (author) {
+                            for (let vcard of vcards) {
+                                const vnick_dom = vcard.querySelector('.vhead .vnick');
+                                const vnick = vnick_dom.innerHTML;
+                                if (vnick === author) {
+                                    vnick_dom.innerHTML = `${vnick} <span class="author">${getAuthor(KEEP.hexo_config.language)}</span>`
+                                }
+                            }
+                        }
+                        clearInterval(getValineDomTimer);
+                    } else {
+                        clearInterval(getValineDomTimer);
+                    }
+                }, 2000);
+            }
+
+            if ('true') {
+                const loadValineTimeout = setTimeout(() => {
+                    loadValine();
+                    clearTimeout(loadValineTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadValine);
+            }
+        </script>
+    </div>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2017</span>&nbsp;-&nbsp;
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">sansiro</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.1</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <!-- <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li> -->
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            .post-toc-wrap {
+  width: 100%;
+  font-size: 0.92rem;
+  box-sizing: border-box;
+
+  .post-toc {
+
+    ol {
+      list-style: none;
+      margin: 0;
+      padding: 0 2px 12px 10px;
+      text-align: left;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      > ol {
+        padding-left: 0;
+      }
+
+      a {
+        transition-property: all;
+        transition();
+      }
+    }
+
+
+    .nav-item {
+      line-height: 1.8;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+
+    .nav {
+      .nav-child {
+        display: hexo-config('toc.expand_all') ? block : none;
+      }
+
+      .active > .nav-child {
+        display: block;
+      }
+
+      .active-current > .nav-child {
+        display: block;
+
+        > .nav-item {
+          display: block;
+        }
+      }
+
+
+      .nav-number, .nav-text {
+        color: var(--default-text-color);
+      }
+
+      .active > a {
+        .nav-number, .nav-text {
+          color: var(--primary-color);
+        }
+      }
+
+      .active-current > a {
+        .nav-number, .nav-text {
+          color: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/header-shrink.js"></script><script src="/js/back2top.js"></script><script src="/js/dark-light-toggle.js"></script>
+
+
+    <script src="/js/local-search.js"></script>
+
+
+
+
+
+    <script src="/js/lazyload.js"></script>
+
+
+<div class="post-scripts pjax">
+    
+        <script src="/js/left-side-toggle.js"></script><script src="/js/libs/anime.min.js"></script><script src="/js/toc.js"></script>
+    
+</div>
+
+
+    <script src="/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd();
+            pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            KEEP.refresh();
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
