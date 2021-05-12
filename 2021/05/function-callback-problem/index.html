@@ -214,7 +214,11 @@
         
 
         <div class="article-content markdown-body">
-            <p>这是一个似乎正在卷土重来的旧模式：</p>
+            <p><a class="link"   target="_blank" rel="noopener" href="https://jakearchibald.com/2021/function-callback-risks/" >原文链接<i class="fas fa-external-link-alt"></i></a></p>
+<blockquote>
+<p>写在前面：<br>第一次尝试翻译，水平太次。第一次觉得翻译是一个非常高难度的工作，但是这也激起了我的兴趣。之后要加强自己的英语水平，期望带来更高水平的翻译！</p>
+</blockquote>
+<p>这是一个似乎正在卷土重来的旧模式：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把数字转化成千分位分隔的字符串。</span></span><br><span class="line"><span class="keyword">import</span> &#123; toReadableNumber &#125; <span class="keyword">from</span> <span class="string">&#x27;some-library&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> readableNumbers = someNumbers.map(toReadableNumber);</span><br></pre></td></tr></table></figure>
 
 <p><code>toReadableNumber</code>的实现是这样的：</p>
@@ -499,80 +503,11 @@
 
     
         <aside class="page-aside">
-            .post-toc-wrap {
-  width: 100%;
-  font-size: 0.92rem;
-  box-sizing: border-box;
-
-  .post-toc {
-
-    ol {
-      list-style: none;
-      margin: 0;
-      padding: 0 2px 12px 10px;
-      text-align: left;
-
-      &:last-child {
-        padding-bottom: 0;
-      }
-
-      > ol {
-        padding-left: 0;
-      }
-
-      a {
-        transition-property: all;
-        transition();
-      }
-    }
-
-
-    .nav-item {
-      line-height: 1.8;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-
-    .nav {
-      .nav-child {
-        display: hexo-config('toc.expand_all') ? block : none;
-      }
-
-      .active > .nav-child {
-        display: block;
-      }
-
-      .active-current > .nav-child {
-        display: block;
-
-        > .nav-item {
-          display: block;
-        }
-      }
-
-
-      .nav-number, .nav-text {
-        color: var(--default-text-color);
-      }
-
-      .active > a {
-        .nav-number, .nav-text {
-          color: var(--primary-color);
-        }
-      }
-
-      .active-current > a {
-        .nav-number, .nav-text {
-          color: var(--primary-color);
-        }
-      }
-    }
-  }
-}
-
-
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BD%86%E5%85%B7%E6%9C%89Web%E5%B9%B3%E5%8F%B0%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">相同的问题，但具有Web平台功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%8F%82%E6%95%B0%E4%B9%9F%E6%9C%89%E7%9B%B8%E5%90%8C%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">对象参数也有相同的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TypeScript%E5%B9%B6%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number"></span> <span class="nav-text">TypeScript并不能解决这个问题</span></a>
+    </div>
+</div>
         </aside>
     
 

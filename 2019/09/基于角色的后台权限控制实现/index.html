@@ -459,80 +459,11 @@
 
     
         <aside class="page-aside">
-            .post-toc-wrap {
-  width: 100%;
-  font-size: 0.92rem;
-  box-sizing: border-box;
-
-  .post-toc {
-
-    ol {
-      list-style: none;
-      margin: 0;
-      padding: 0 2px 12px 10px;
-      text-align: left;
-
-      &:last-child {
-        padding-bottom: 0;
-      }
-
-      > ol {
-        padding-left: 0;
-      }
-
-      a {
-        transition-property: all;
-        transition();
-      }
-    }
-
-
-    .nav-item {
-      line-height: 1.8;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-
-    .nav {
-      .nav-child {
-        display: hexo-config('toc.expand_all') ? block : none;
-      }
-
-      .active > .nav-child {
-        display: block;
-      }
-
-      .active-current > .nav-child {
-        display: block;
-
-        > .nav-item {
-          display: block;
-        }
-      }
-
-
-      .nav-number, .nav-text {
-        color: var(--default-text-color);
-      }
-
-      .active > a {
-        .nav-number, .nav-text {
-          color: var(--primary-color);
-        }
-      }
-
-      .active-current > a {
-        .nav-number, .nav-text {
-          color: var(--primary-color);
-        }
-      }
-    }
-  }
-}
-
-
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">1. 什么是权限控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="nav-number">2.</span> <span class="nav-text">2. 设计思想</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%89%8D%E7%AB%AF%E8%AF%A5%E6%80%8E%E4%B9%88%E5%81%9A"><span class="nav-number">3.</span> <span class="nav-text">3. 前端该怎么做</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%90%8E%E7%AB%AF%E8%AF%A5%E6%80%8E%E4%B9%88%E5%81%9A"><span class="nav-number">4.</span> <span class="nav-text">4. 后端该怎么做</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%80%8E%E4%B9%88%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">5. 怎么管理</span></a></li></ol>
+    </div>
+</div>
         </aside>
     
 
